@@ -13,10 +13,39 @@ class Point //—оздава€ стурктуру или класс, мы создаем новый тип данных.
 
 {
 
-public:
+private:
 
     double x;
     double y;
+
+public:
+    
+    double GetX() 
+    {
+        return x;
+    }
+    void SetX(double valueX) 
+    {
+
+        x = valueX;
+    }
+
+    double GetY()
+    {
+        return y;
+    }
+    void SetY(double valueY)
+    {
+
+        y = valueY;
+    }
+
+    void Print() 
+    {
+        cout << "X=" << x << "\t Y=" << y << endl;
+
+    }
+   
 
 };
 
@@ -32,13 +61,13 @@ int main()
     //ќбъкты часто назвает  экземпл€рами класса или структуры
 
 
-    A.x = 2;
-    A.y = 3;
-    cout << A.x << "\t" << A.y << endl;
+    A.SetX(5);
+    A.SetY(3);
+    A.Print();
 
     Point* pA = &A;
 
-    cout << pA->x << "\t" << pA -> y << endl;
+    /*cout << pA->x << "\t" << pA -> y << endl;*/
 
 }
 
