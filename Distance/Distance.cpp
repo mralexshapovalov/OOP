@@ -4,8 +4,8 @@
 #include "iostream"
 #include <cmath>
 
-
-class Point 
+//Completed the work on 18.01.23
+class Point
 {
 
 private:
@@ -15,53 +15,72 @@ private:
 
 public:
 
-    double GetX()
+    double GetX()const
     {
         return x;
     }
 
-    void SetX(double valueX)
+    void SetX(double x)
     {
 
-        x = valueX;
+        this->x = x;
     }
 
-    double GetY()
+    double GetY()const
     {
         return y;
     }
 
-    void SetY(double valueY)
+    void SetY(double y)
     {
 
-        y = valueY;
+        this->y = y;
     }
 
-    double Distance(Point A, Point B)
+    /* double Distance(Point A, Point B)
+     {
+         return sqrt(pow((A.x - B.x), 2) + (pow((A.y - B.y), 2)));
+     }*/
+
+    double Distance(Point other)
     {
-        return sqrt(pow((A.x - B.x), 2) + (pow((A.y - B.y), 2)));
+        double x_distance = this->x - other.x;
+        double y_distance = this->y - other.y;
+        double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+        return distance;
     }
+
 
 };
 
-int main()
+double Distance(Point A, Point B)
 {
-  
-    Point A;                    
-
-    A.SetX(2);
-    A.SetY(4);
-
-    Point B;
-    B.SetX(0);
-    B.SetY(0);
-
-    std::cout << "Point A: " << A.GetX() << "\t" << A.GetY() <<"\n";
-    std::cout << "Point B: " << B.GetX() << "\t" << B.GetY() << "\n";
-    std::cout << "Distance beetween two points : " << A.Distance(A, B);
-
-
+    double x_distance = A.GetX() - B.GetX();
+    double y_distance = A.GetY() - B.GetY();
+    double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+    return distance;
 }
 
 
 
+int main()
+{
+//Completed the work on 18.01.23
+    Point A;
+
+    A.SetX(2);
+    A.SetY(3);
+
+    Point B;
+    B.SetX(7);
+    B.SetY(8);
+
+    std::cout << "Point A: " << A.GetX() << "\t" << A.GetY() << "\n";
+    std::cout << "Point B: " << B.GetX() << "\t" << B.GetY() << "\n";
+    std::cout << "Distance beetween two points : " << A.Distance(B) << std::endl;
+    std::cout << "Distance beetween two points : " << Distance(B, B) << std::endl;
+
+
+
+
+}
