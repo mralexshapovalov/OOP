@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TextFile1.txt = TextFile1.txt
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Distance", "Distance\Distance.vcxproj", "{ECF27D26-6341-4965-9446-A97DFBFF2AEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -26,6 +28,14 @@ Global
 		{CAD30577-9B78-4B19-8AA3-6424D8F90C7C}.Release|x64.Build.0 = Release|x64
 		{CAD30577-9B78-4B19-8AA3-6424D8F90C7C}.Release|x86.ActiveCfg = Release|Win32
 		{CAD30577-9B78-4B19-8AA3-6424D8F90C7C}.Release|x86.Build.0 = Release|Win32
+		{ECF27D26-6341-4965-9446-A97DFBFF2AEA}.Debug|x64.ActiveCfg = Debug|x64
+		{ECF27D26-6341-4965-9446-A97DFBFF2AEA}.Debug|x64.Build.0 = Debug|x64
+		{ECF27D26-6341-4965-9446-A97DFBFF2AEA}.Debug|x86.ActiveCfg = Debug|Win32
+		{ECF27D26-6341-4965-9446-A97DFBFF2AEA}.Debug|x86.Build.0 = Debug|Win32
+		{ECF27D26-6341-4965-9446-A97DFBFF2AEA}.Release|x64.ActiveCfg = Release|x64
+		{ECF27D26-6341-4965-9446-A97DFBFF2AEA}.Release|x64.Build.0 = Release|x64
+		{ECF27D26-6341-4965-9446-A97DFBFF2AEA}.Release|x86.ActiveCfg = Release|Win32
+		{ECF27D26-6341-4965-9446-A97DFBFF2AEA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
