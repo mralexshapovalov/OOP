@@ -2,7 +2,7 @@
 //
 
 #include "iostream"
-
+#include <cmath>
 using namespace std;
 
 //Класс - это тип данных 
@@ -40,12 +40,10 @@ public:
         y = valueY;
     }
 
-    void Print() 
+    double Distance(Point A, Point B) 
     {
-        cout << "X=" << x << "\t Y=" << y << endl;
-
+        return sqrt(pow(A.x - A.y), 2 + pow(B.x - B.y), 2);
     }
-   
 
 };
 
@@ -63,9 +61,9 @@ int main()
 
     A.SetX(5);
     A.SetY(3);
-    A.Print();
+  
 
-    Point* pA = &A;
+
 
     /*cout << pA->x << "\t" << pA -> y << endl;*/
 
