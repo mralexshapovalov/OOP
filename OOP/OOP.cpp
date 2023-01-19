@@ -22,6 +22,49 @@ public:
 };
 #endif // DEBUG
 
+class Point
+{
+private:
+    double x;
+    double y;
+
+public:
+    
+    //Point()
+    //{
+    //    x = y = 0;
+    //    //RAII -Resource Aqulisation(выделенине ресурсов -значит инцилизация)
+    //    cout << "Constructro\t" << this<<endl;
+    //}
+    //Point(double x) 
+    //{
+
+    //    this->x = x;
+    //    this->y = 0;
+    //    cout << "!ArgConstructor" << this << endl;
+
+    //}
+
+    Point(double x=0, double y=0) 
+    {
+
+        this->x = x;
+        this->y = y;
+        cout << "Constructro\t" << this << endl;
+    }
+
+    ~Point()
+    {
+        cout << "Deconstructro\t"<<  this << endl;
+
+    }
+    void Print()const
+    {
+        cout << "X=" << x << "\tY=" << y << endl;
+    }
+
+};
+
 
 int main()
 {
@@ -35,6 +78,7 @@ int main()
              // Создание экземпляра А структуры Point
             //Объкты часто назвает  экземплярами класса или структуры
 
+    
 
     A.x = 2;
     A.y = 3;
@@ -46,7 +90,14 @@ int main()
     };
 #endif // DEBUG
 
-//Конструкторы
+Point A;
+A.Print();
+
+Point B(2, 4); 
+B.Print();
+
+Point C = 4;
+C.Print();
 
 }
 
