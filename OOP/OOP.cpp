@@ -1,16 +1,15 @@
-// OOP.cpp : This file contains the 'main' function. Program execution begins and ends there.
+п»ї// OOP.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include "iostream"
-
 using namespace std;
 
-//Класс - это тип данных 
-//Структура - это тип данных
+//ГЉГ«Г Г±Г± - ГЅГІГ® ГІГЁГЇ Г¤Г Г­Г­Г»Гµ 
+//Г‘ГІГ°ГіГЄГІГіГ°Г  - ГЅГІГ® ГІГЁГЇ Г¤Г Г­Г­Г»Гµ
 
 #ifdef STRICT_POINT //Working 16.01.2023
-class Point //Создавая стурктуру или класс, мы создаем новый тип данных.
-    //Классы и структуры еще называют пользовательскими (составными) типами данных
+class Point //Г‘Г®Г§Г¤Г ГўГ Гї Г±ГІГіГ°ГЄГІГіГ°Гі ГЁГ«ГЁ ГЄГ«Г Г±Г±, Г¬Г» Г±Г®Г§Г¤Г ГҐГ¬ Г­Г®ГўГ»Г© ГІГЁГЇ Г¤Г Г­Г­Г»Гµ.
+    //ГЉГ«Г Г±Г±Г» ГЁ Г±ГІГ°ГіГЄГІГіГ°Г» ГҐГ№ГҐ Г­Г Г§Г»ГўГ ГѕГІ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«ГјГ±ГЄГЁГ¬ГЁ (Г±Г®Г±ГІГ ГўГ­Г»Г¬ГЁ) ГІГЁГЇГ Г¬ГЁ Г¤Г Г­Г­Г»Гµ
 
 {
 
@@ -22,6 +21,7 @@ public:
 };
 #endif // DEBUG
 
+#ifdef CONSTRUCTOR_CHEK
 class Point
 {
 private:
@@ -29,11 +29,11 @@ private:
     double y;
 
 public:
-    
+
     //Point()
     //{
     //    x = y = 0;
-    //    //RAII -Resource Aqulisation(выделенине ресурсов -значит инцилизация)
+    //    //RAII -Resource Aqulisation(ГўГ»Г¤ГҐГ«ГҐГ­ГЁГ­ГҐ Г°ГҐГ±ГіГ°Г±Г®Гў -Г§Г­Г Г·ГЁГІ ГЁГ­Г¶ГЁГ«ГЁГ§Г Г¶ГЁГї)
     //    cout << "Constructro\t" << this<<endl;
     //}
     //Point(double x) 
@@ -45,19 +45,93 @@ public:
 
     //}
 
-    Point(double x=0, double y=0) 
+    Point(const Point& other)
+    {
+        this->x = other.x;
+        this->y = other.y;
+
+        cout << "РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ" << this << endl;
+
+    }
+
+    Point(double x = 0, double y = 0)
     {
 
         this->x = x;
         this->y = y;
-        cout << "Constructro\t" << this << endl;
+        cout << "Constructror\t" << this << endl;
     }
 
     ~Point()
     {
-        cout << "Deconstructro\t"<<  this << endl;
+        cout << "Deconstructro\t" << this << endl;
 
     }
+    void Print()const
+    {
+        cout << "X=" << x << "\tY=" << y << endl;
+    }
+
+};
+
+#endif // DEBUG
+
+class Point
+{
+private:
+    double x;
+    double y;
+
+public:
+
+    //Point()
+    //{
+    //    x = y = 0;
+    //    //RAII -Resource Aqulisation(ГўГ»Г¤ГҐГ«ГҐГ­ГЁГ­ГҐ Г°ГҐГ±ГіГ°Г±Г®Гў -Г§Г­Г Г·ГЁГІ ГЁГ­Г¶ГЁГ«ГЁГ§Г Г¶ГЁГї)
+    //    cout << "Constructro\t" << this<<endl;
+    //}
+    //Point(double x) 
+    //{
+
+    //    this->x = x;
+    //    this->y = 0;
+    //    cout << "!ArgConstructor" << this << endl;
+
+    //}
+
+    Point(const Point& other) 
+    { 
+      this->x = other.x; 
+      this->y = other.y; 
+
+    cout << "РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ" << this << endl; 
+    
+    }
+
+    Point(double x = 0, double y = 0)
+    {
+
+        this->x = x;
+        this->y = y;
+        cout << "Constructror\t" << this << endl;
+    }
+
+    ~Point()
+    {
+        cout << "Deconstructro\t" << this << endl;
+
+    }
+    // Operators
+    void operator=(const Point& other) {
+
+
+        this->x = other.x;
+        this->y = other.y;
+
+        cout << "CopyAssingment:\t" << this << endl;
+    }
+
+
     void Print()const
     {
         cout << "X=" << x << "\tY=" << y << endl;
@@ -70,37 +144,39 @@ int main()
 {
     setlocale(LC_ALL, "RUS");
 
-    
-#ifdef STRUCT_POINT//Working 16.01.2023
 
-    Point A;//Обяъвеление переменной А типа Point 
-              //Объявление объекта А структуры Point 
-             // Создание экземпляра А структуры Point
-            //Объкты часто назвает  экземплярами класса или структуры
+//#ifdef STRUCT_POINT//Working 16.01.2023
+//#endif // DEBUG
 
-    
+//#ifdef CONSTRUCTOR_CHEK
+//Point A;
+//A.Print();
+//
+//Point B(2, 4);
+//B.Print();
+//
+//Point C = 4;
+//C.Print();
+//
+//Point D = C;
+//D.Print();
 
-    A.x = 2;
-    A.y = 3;
-    cout << A.x << "\t" << A.y << endl;
+  /*  Point A(2, 3);
+    A.Print();
+    Point B = A;
+    B.Print();
+    Point C;
+    C = B;
+    C.Print();*/
 
-    Point* pA = &A;
+    Point A, B, C;
+    A = B = C = Point(2, 2);
 
-    cout << pA->x << "\t" << pA->y << endl;
-    };
-#endif // DEBUG
 
-Point A;
-A.Print();
+//#endif // CONSTRUCTOR_CHEK{}
 
-Point B(2, 4); 
-B.Print();
 
-Point C = 4;
-C.Print();
+
+
 
 }
-
-
-
-

@@ -4,6 +4,7 @@
 #include "iostream"
 #include <cmath>
 
+#define delimiter "\n_______________________________________________________________"
 //Completed the work on 18.01.23
 class Point
 {
@@ -42,18 +43,49 @@ public:
          return sqrt(pow((A.x - B.x), 2) + (pow((A.y - B.y), 2)));
      }*/
 
-    double Distance(Point other)
+    double Distance(const Point& other)const
     {
+        other.x = 125;
         double x_distance = this->x - other.x;
         double y_distance = this->y - other.y;
         double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
         return distance;
     }
 
+    Point(const Point& other)
+    {
+        this->x = other.x;
+        this->y = other.y;
+
+        std::cout << "Конструктор копирования" << this << std::endl;
+
+    }
+
+    Point(double x = 0, double y = 0)
+    {
+
+        this->x = x;
+        this->y = y;
+        std::cout << "Constructror\t" << this << std::endl;
+
+    }
+
+    ~Point()
+    {
+        std::cout << "Deconstructro\t" << this << std::endl;
+
+
+    }
+    void Print()const
+    {
+        std::cout << "X=" << x << "\tY=" << y << std::endl;
+
+    }
+
 
 };
 
-double Distance(Point A, Point B)
+double Distance(const Point& A, const Point &B)
 {
     double x_distance = A.GetX() - B.GetX();
     double y_distance = A.GetY() - B.GetY();
@@ -77,10 +109,14 @@ int main()
 
     std::cout << "Point A: " << A.GetX() << "\t" << A.GetY() << "\n";
     std::cout << "Point B: " << B.GetX() << "\t" << B.GetY() << "\n";
+    std::cout << delimiter << std::endl;
     std::cout << "Distance beetween two points : " << A.Distance(B) << std::endl;
+    std::cout << delimiter << std::endl;
+    std::cout << "Distance beetween two points : " << B.Distance(B) << std::endl;
+    std::cout << delimiter << std::endl;
     std::cout << "Distance beetween two points : " << Distance(B, B) << std::endl;
 
 
-
+  
 
 }
