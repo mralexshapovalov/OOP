@@ -65,7 +65,7 @@ public:
 	}
 
 	//					Operators:
-	Point operator=(const Point& other)
+	Point& operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
@@ -81,6 +81,25 @@ public:
 		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
 		return distance;
 	}
+
+	Point& operator++() {
+
+		x++;
+		y++;
+		return *this;
+
+	}
+
+	Point operator++(int)
+	{
+
+		
+		Point old = *this;
+		x++;
+		y++;
+		return old;
+	}
+
 	void print()const
 	{
 		cout << "X = " << x << "\tY = " << y << endl;
@@ -95,11 +114,24 @@ double distance(const Point& A, const Point& B)
 	return distance;
 }
 
+
+Point operator+(const Point& left, const Point& right) 
+{
+
+	Point res;
+	res.set_x(left.get_x() + right.get_x());
+	res.set_y(left.get_y() + right.get_y());
+
+	return res;
+}
+
+
+
 //#define STRUCT_POINT
 //#define DISTANCE_CHECK
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK_1
-#define ASSIGNMENT_CHECK_2
+//#define ASSIGNMENT_CHECK_2
 
 void main()
 {
@@ -172,10 +204,31 @@ void main()
 	C.print();
 #endif // ASSIGNMENT_CHECK_1
 
+#ifdef ASSIGMENT_CHECK_2
 	int a, b, c;
 	a = b = c = 0;
 
 	Point A, B, C;
 	A = B = C = Point(2, 3);
+	//Point(2,3) -явный вызов конструктора и этот конструктор создает временный безымянный объект 
+	//Временные безымяные объекты существуют в пределах одного выражения.
+#endif
+
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+
+
+	Point A(2, 3);
+	
+	Point B(3, 4);
+
+	Point C = A + B;
+	cout << delimiter << endl;
+	C.print();
+	cout << delimiter << endl;
+	C++;
+	cout << delimiter << endl;
+	C.print();
 }
 
