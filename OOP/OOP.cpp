@@ -99,6 +99,13 @@ public:
 		y++;
 		return old;
 	}
+	Point& operator ()(double x, double y) {
+
+		set_x(x);
+		set_y(y);
+
+		return *this;
+	}
 
 	void print()const
 	{
@@ -124,6 +131,38 @@ Point operator+(const Point& left, const Point& right)
 
 	return res;
 }
+
+bool operator==(const Point& left, const Point& right) {
+
+	if (left.get_x() == right.get_x() && left.get_y() == right.get_y())
+		return true;
+	else
+		return false;
+}
+bool operator!=(const Point& left, const Point& right) {
+
+	return !(left == right);
+}
+
+std::ostream& operator << (std::ostream& os, const Point& obj) 
+{
+
+	return os << obj.get_x() << "\tY=" << obj.get_y();
+
+}
+std::istream& operator >> (std::istream& is, Point& obj)
+{
+
+	double x, y;
+	is >> x >> y;
+	obj(x, y);
+	return is;
+
+
+	
+
+}
+
 
 
 
@@ -219,16 +258,35 @@ void main()
 	int c = a + b;
 
 
-	Point A(2, 3);
-	
-	Point B(3, 4);
+	//Point A(2, 3);
+	//
+	//Point B(3, 4);
 
-	Point C = A + B;
-	cout << delimiter << endl;
-	C.print();
-	cout << delimiter << endl;
-	C++;
-	cout << delimiter << endl;
-	C.print();
+	//Point C = A + B;
+	//cout << delimiter << endl;
+	//C.print();
+	//cout << delimiter << endl;
+	//C++;
+	//cout << delimiter << endl;
+	/*C.print();*/
+
+	//cout << (A != B) << endl;
+    
+
+	Point A(2, 3);
+	A.print();
+	A(3, 4);
+	A.print();
+	cout << A << endl;
+
+	cout << "Введите координаты точки "; 
+
+	cin >> A; 
+	//cin -это объект класса istream
+
+	cout << A << endl;
+
+
+
 }
 
