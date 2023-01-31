@@ -22,7 +22,7 @@ using std::endl;
 //5. Перегрузить составные присваивания : +=, -=, *=, /=;
 //6. Перегрузить операторы сравнения : == , != , > , < , >= , <= ;
 //7. Перегрузить оператор ввода с клавиатуры;                        DONE
-
+//Обьявление класса
 
 class Fraction 
 {
@@ -63,6 +63,7 @@ public :
         if (denominator == 0)denominator = 1;
         this->denominator = denominator;
     }
+
     //Constructors
     Fraction()//По умолчанию 
     {
@@ -143,37 +144,37 @@ public :
         cout << endl;
     }
 
- //3. Перегрузить арифметические операторы : +, -, *, / ;
+
     
  //4. Перегрузить операторы++ / --;
 
-    Fraction& operator++() 
+    Fraction& operator++() //Префексный 
     {
         integer++;
         return *this;
     }
 
-    Fraction operator++(int)
+    Fraction operator++(int) //Посфиксный
     {
         Fraction old = *this;
         integer++;
         return old;
     }
 
-    Fraction& operator--()
+    Fraction& operator--()//Префексный 
     {
         integer--;
         return *this;
     }
 
-    Fraction operator--(int)
+    Fraction operator--(int) //Посфиксный
     {
         Fraction old = *this;
         integer--;
         return old;
     }
 
- //5. Перегрузить составные присваивания : +=, -=, *=, /=;
+
 //6. Перегрузить операторы сравнения : == , != , > , < , >= , <= ;
 //7. Перегрузить оператор ввода с клавиатуры;
 
@@ -195,6 +196,30 @@ public :
         return inverted;
     }
 
+    // 5. Перегрузить составные присваивания : +=, -=, *=, /=;
+    /*Fraction& operator*=(const Fraction& other)
+    {
+        return *this = *this * other;
+
+    }
+
+    Fraction& operator/=(const Fraction& other)
+    {
+
+        return *this = *this / other;
+    }
+
+    Fraction& operator+=(const Fraction& other)
+    {
+        return *this = *this + other;
+    }
+
+    Fraction& operator-=(const Fraction& other)
+    {
+        return *this = *this - other;
+    }*/
+    
+    
 };
 
 
@@ -205,9 +230,7 @@ Fraction operator+( Fraction left,  Fraction right)
 
     return  Fraction  //Default Constuctor
     (
-        left.get_numerator() * right.get_denominator() + right.get_numerator() * left.get_denominator()
-
-        ,
+        left.get_numerator() * right.get_denominator() + right.get_numerator() * left.get_denominator(),
         left.get_denominator() * right.get_denominator()
 
     );
@@ -225,16 +248,14 @@ Fraction operator-( Fraction left,  Fraction right)
         left.get_denominator() * right.get_denominator()
 
     ).to_proper();
-
 }
 
-Fraction operator*( Fraction left,  Fraction right)
+Fraction operator*(Fraction left, Fraction right)
 {
     left.to_improper();
     right.to_improper();
 
-
-   //Явно вызываем конструктор и создаем временный безымянный объект,который сразу же возращается на место вызова
+    //Явно вызываем конструктор и создаем временный безымянный объект,который сразу же возращается на место вызова
     return  Fraction  //Default Constuctor
     (
         left.get_numerator() * right.get_numerator(),
@@ -246,51 +267,57 @@ Fraction operator*( Fraction left,  Fraction right)
     //result.set_denominator(left.get_denominator() * right.get_denominator());
 }
 
-bool operator==( Fraction left,  Fraction right) 
+
+Fraction operator/( Fraction left,  Fraction right)
 {
-
-
-    if (left.get_numerator()* right.get_numerator() == left.get_denominator() * right.get_denominator())
-        return true;
-    else
-        return false;
-}
-bool operator!=(const Fraction& left, const Fraction& right) 
-{
-
-    return !(left == right);
-}
-
-bool operator>=(const Fraction& left, const Fraction& right) 
-{
-
-    return !(left == right);
-}
-
-bool operator<=(const Fraction& left, const Fraction& right) {
-
-    return !(left == right);
-}
-
-
-
-Fraction operator/( const Fraction& left, const Fraction& right)
-{
-   /* left.to_improper();
-    right.to_improper();
-
-    Fraction res;
-
-
-    return Fraction(
-
-        left.get_numerator() * right.get_denominator(),
-        right.get_numerator() * left.get_denominator()
-
-    ).to_proper();*/
 
     return left * right.inverted();
 }
+
+//6. Перегрузить операторы сравнения : == , != , > , < , >= , <= ;
+
+bool operator==(Fraction left, Fraction right)
+{
+    left.to_improper();
+    right.to_improper();
+    return left.get_numerator() * right.get_denominator() ==
+        right.get_numerator() * left.get_denominator();
+}
+
+bool operator !=(const Fraction left, const Fraction right)
+{
+    return !(left == right);
+}
+
+bool operator>(Fraction left, Fraction right)
+{
+    left.to_improper();
+    right.to_improper();
+    return left.to_improper().get_numerator() * right.get_denominator() >
+           right.to_improper().get_numerator() * left.get_denominator();
+    
+}
+bool operator<(Fraction left, Fraction right)
+{
+   left.to_improper();
+   right.to_improper();
+   return left.to_improper().get_numerator() * right.get_denominator() <
+          right.to_improper().get_numerator() * left.get_denominator();
+
+}
+
+
+
+bool operator <=( Fraction left,  Fraction right)
+{
+    return left < right || left == right;
+}
+
+bool operator >=( Fraction left,  Fraction right)
+{
+    return !(left <=right);
+}
+
 
 //7. Перегрузить оператор ввода с клавиатуры;
 
@@ -331,30 +358,42 @@ int main()
 #endif CONTUCTOR_CHEK
 
 
-    double a = 2;
-    double b = 3;
-    double c = a * b;
-
     Fraction A(2, 3, 4);
     A.print();
 
     Fraction B(3, 4, 5);
     B.print();
 
-    Fraction C=A*B;
-    C.print();
+   // Fraction C=A*B;
+   // C.print();
 
-    Fraction D = A / B;
-    D.print();
+   //Fraction D = A / B;
+   // D.print();
 
-    Fraction E = A + B;
-    E.print();
+   // Fraction E = A + B;
+   // E.print();
 
-    Fraction F = A - B;
-    F.print();
+   // Fraction F = A - B;
+   // F.print();
 
- /*   A *= B;
-    A.print();*/
+ /*   if (A == B)cout << "Дроби равны.";
+    else cout << "Дроби разные."; 
+    cout << "(A += B)" << (A += B) << "\t\t\t" << endl;
+    cout << endl;
+    cout << "(A -= B)" << (A -= B) << "\t\t\t" << endl;
+    cout << endl;
+    cout << "(A *= B)" << (A *= B) << "\t\t\t" <<  endl;
+    cout << endl;
+    cout << "(A /= B)"<< (A /= B) << endl;
+    cout << endl;*/
+
+    cout << "(A >B)" <<(A >  B)<<boolalpha<< endl;
+    cout << "(A>=B)" <<(A >= B)<<boolalpha<< endl;
+    cout << "(A <B)" <<(A <  B)<<boolalpha<< endl;
+    cout << "(A<=B)" <<(A <= B)<<boolalpha<< endl;
+    cout << "(A==B)" <<(A == B)<<boolalpha<< endl;
+    cout << "(A!=B)" <<(A != B)<<boolalpha<< endl;
+
     
 }
 
