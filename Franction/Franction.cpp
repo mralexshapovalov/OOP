@@ -24,47 +24,44 @@ using std::endl;
 //7. Перегрузить оператор ввода с клавиатуры;                        DONE
 
 
-class Fraction {
-
+class Fraction 
+{
 
     int integer;        //целая часть
     int numerator;      //Числитель
     int denominator;   //знаменатель
 
-
 public :
 
     int get_integer()const 
     {
-
         return integer;
-
     }
+
     int get_numerator()const
     {
-
         return numerator;
-
     }
+
     int get_denominator()const
     {
-
         return denominator;
-
     }
-    void set_integer(int integer) {
 
+    void set_integer(int integer) 
+    {
         this->integer = integer;
     }
-    void set_numerator(int numerator) {
 
+    void set_numerator(int numerator) 
+    {
         this->numerator = numerator;
     }
-    void set_denominator(int denominator) {
 
+    void set_denominator(int denominator) 
+    {
         if (denominator == 0)denominator = 1;
         this->denominator = denominator;
-
     }
     //Constructors
     Fraction()//По умолчанию 
@@ -75,6 +72,7 @@ public :
 
         cout << "DefaultConstuctor " << this << endl;
     }
+
     Fraction(int integer)
     {
         this->integer = integer;
@@ -101,44 +99,37 @@ public :
 
         cout << "Constructor " << this << endl;
     }
+
     Fraction(const Fraction& other)
     {
-
         this->integer = other.integer;
         this->numerator = other.numerator;
         this->denominator=other.denominator;
 
         cout << "CopyConstructor " << this << endl;
-
     }
 
     ~Fraction()
     {
         cout << "Destrucror " << this << endl;
-
     }
 
     Fraction& to_proper() 
     {
-
-        integer += numerator / denominator;
+        integer += numerator / denominator;  //Fraction & to_proper();	//выделяет целую часть из числителя
         numerator %= denominator;
         return* this;
-
     }
 
-    Fraction& to_improper()
+    Fraction& to_improper()                 //Fraction& to_improper();//целую часть интегрирует в числитель 
     {
-
         numerator += integer * denominator;
         integer = 0;
         return *this;
-
     }
 
     void print()const 
     {
-
         if (integer)cout << integer <<" "; //Ожидает целое число
 
         if (numerator)  ////Ожидает числитель
@@ -152,17 +143,13 @@ public :
         cout << endl;
     }
 
-
  //3. Перегрузить арифметические операторы : +, -, *, / ;
     
-  
  //4. Перегрузить операторы++ / --;
 
     Fraction& operator++() 
     {
         integer++;
-        numerator++;
-        denominator++;
         return *this;
     }
 
@@ -170,16 +157,12 @@ public :
     {
         Fraction old = *this;
         integer++;
-        numerator++;
-        denominator++;
         return old;
     }
 
     Fraction& operator--()
     {
         integer--;
-        numerator--;
-        denominator--;
         return *this;
     }
 
@@ -187,17 +170,12 @@ public :
     {
         Fraction old = *this;
         integer--;
-        numerator--;
-        denominator--;
         return old;
     }
-
-
 
  //5. Перегрузить составные присваивания : +=, -=, *=, /=;
 //6. Перегрузить операторы сравнения : == , != , > , < , >= , <= ;
 //7. Перегрузить оператор ввода с клавиатуры;
-
 
     Fraction& operator ()(int integer, int numerator,int denominator)  /*E0980	вызов объекта типа класса без соответствующей функции operator() или функций преобразования указателя в функцию	Frantion*/
     {
@@ -210,8 +188,6 @@ public :
 
     Fraction inverted()const 
     {
-
-
         Fraction inverted = *this;
         inverted.to_improper();
 
@@ -219,32 +195,41 @@ public :
         return inverted;
     }
 
-
 };
 
 
-Fraction operator+(const Fraction& left, const Fraction& right)
+Fraction operator+( Fraction left,  Fraction right)
 {
+    left.to_improper();
+    right.to_improper();
 
-    Fraction res;
+    return  Fraction  //Default Constuctor
+    (
+        left.get_numerator() * right.get_denominator() + right.get_numerator() * left.get_denominator()
 
+        ,
+        left.get_denominator() * right.get_denominator()
 
-    return res;
+    );
 }
 
-Fraction operator-(const Fraction& left, const Fraction& right)
+Fraction operator-( Fraction left,  Fraction right)
 {
+    left.to_improper();
+    right.to_improper();
 
-    Fraction res;
+    return  Fraction  //Default Constuctor
+    (
+        left.get_numerator() * right.get_denominator() - right.get_numerator() * left.get_denominator(),
+        
+        left.get_denominator() * right.get_denominator()
 
+    ).to_proper();
 
-    return res;
 }
 
 Fraction operator*( Fraction left,  Fraction right)
 {
-
-  
     left.to_improper();
     right.to_improper();
 
@@ -259,8 +244,35 @@ Fraction operator*( Fraction left,  Fraction right)
 
     //result.set_numerator(left.get_numerator() * right.get_numerator());
     //result.set_denominator(left.get_denominator() * right.get_denominator());
-
 }
+
+bool operator==( Fraction left,  Fraction right) 
+{
+
+
+    if (left.get_numerator()* right.get_numerator() == left.get_denominator() * right.get_denominator())
+        return true;
+    else
+        return false;
+}
+bool operator!=(const Fraction& left, const Fraction& right) 
+{
+
+    return !(left == right);
+}
+
+bool operator>=(const Fraction& left, const Fraction& right) 
+{
+
+    return !(left == right);
+}
+
+bool operator<=(const Fraction& left, const Fraction& right) {
+
+    return !(left == right);
+}
+
+
 
 Fraction operator/( const Fraction& left, const Fraction& right)
 {
@@ -277,11 +289,8 @@ Fraction operator/( const Fraction& left, const Fraction& right)
 
     ).to_proper();*/
 
-
     return left * right.inverted();
-
 }
-
 
 //7. Перегрузить оператор ввода с клавиатуры;
 
@@ -303,6 +312,7 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 //#define CONTUCTOR_CHEK
 int main()
 {
+    setlocale(LC_ALL, "RUS");
  
 #ifdef CONTUCTOR_CHEK
     Fraction A;
@@ -337,9 +347,15 @@ int main()
     Fraction D = A / B;
     D.print();
 
-  /*  A *= B;
+    Fraction E = A + B;
+    E.print();
+
+    Fraction F = A - B;
+    F.print();
+
+ /*   A *= B;
     A.print();*/
- 
+    
 }
 
 
