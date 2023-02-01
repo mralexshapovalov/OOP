@@ -2,7 +2,7 @@
 //
 
 #include <iostream>
-#include<windows.h>
+
 using namespace std;
 using std::cin;
 using std::cout;
@@ -19,14 +19,20 @@ using std::endl;
 //Fraction& to_improper();//выделяет целую часть из числителя
 //3. Перегрузить арифметические операторы : +, -, *, / ;
 //4. Перегрузить операторы++ / --;                                   DONE
-//5. Перегрузить составные присваивания : +=, -=, *=, /=;
+//5. Перегрузить составные присваивания : +=, -=, *=, /=;            DONE
 //6. Перегрузить операторы сравнения : == , != , > , < , >= , <= ;
 //7. Перегрузить оператор ввода с клавиатуры;                        DONE
 //Обьявление класса
 
+class Fraction;
+
+Fraction operator*(Fraction left, Fraction right);
+Fraction operator+(Fraction left, Fraction right);
+Fraction operator-(Fraction left, Fraction right);
+Fraction operator/(Fraction left, Fraction right);
+
 class Fraction 
 {
-
     int integer;        //целая часть
     int numerator;      //Числитель
     int denominator;   //знаменатель
@@ -115,6 +121,17 @@ public :
         cout << "Destrucror " << this << endl;
     }
 
+    Fraction& operator=(const Fraction& other) 
+    {
+
+        this->integer = other.integer;
+        this->numerator = other.numerator;
+        this->denominator=other.denominator;
+
+        cout << "Operator=" << this << endl;
+        return *thisж
+    }
+
     Fraction& to_proper() 
     {
         integer += numerator / denominator;  //Fraction & to_proper();	//выделяет целую часть из числителя
@@ -128,6 +145,30 @@ public :
         integer = 0;
         return *this;
     }
+
+    Fraction& reduce()                 //Fraction& to_improper();//целую часть интегрирует в числитель 
+    {
+        int more, less, rest = 0;
+
+        if (numerator > denominator)more = numerator, less = denominator;
+        else less = numerator = numerator, more = denominator;
+
+        do 
+        {
+            rest = more % less;
+            more = less;
+            less = rest;
+
+        } while (rest);
+
+        int GCD = more; //GCD= Наибольший общий делитель
+        
+        numerator /= GCD;
+        denominator /= GCD;
+
+        return *this;
+    }
+
 
     void print()const 
     {
@@ -143,10 +184,8 @@ public :
         else if (integer == 0)cout << 0;
         cout << endl;
     }
-
-
     
- //4. Перегрузить операторы++ / --;
+    //4. Перегрузить операторы++ / --;
 
     Fraction& operator++() //Префексный 
     {
@@ -196,29 +235,17 @@ public :
         return inverted;
     }
 
-    Fraction & operator *=(const Fraction other)
+    Fraction & operator *=(const Fraction& other)
     {
-       
-        
-        numerator = numerator * other.denominator + other.numerator * denominator;
-        denominator = denominator * other.denominator;
-       
-        Fraction fraction(numerator, denominator);
-        return fraction;
-        /*Fraction faction((this->numerator * other.numerator), (this->denominator * other.denominator));
-        return faction;*
-      
-      /*  return ((*this) * other);*/
-       /* return *this = *this * other*/;
+        return *this = *this * other;
     }
 
     Fraction& operator/=(const Fraction& other)
     {
-
-       
+       return *this = *this / other;
     }
 
-    /*Fraction& operator+=(const Fraction& other)
+    Fraction& operator+=(const Fraction& other)
     {
         return *this = *this + other;
     }
@@ -226,7 +253,7 @@ public :
     Fraction& operator-=(const Fraction& other)
     {
         return *this = *this - other;
-    }*/
+    }
     
 };
 
@@ -266,7 +293,7 @@ Fraction operator*(Fraction left, Fraction right)
         left.get_numerator() * right.get_numerator(),
         left.get_denominator() * right.get_denominator()
 
-    ).to_proper();
+    ).to_proper().reduce();
 
     //result.set_numerator(left.get_numerator() * right.get_numerator());
     //result.set_denominator(left.get_denominator() * right.get_denominator());
@@ -299,6 +326,7 @@ bool operator>(Fraction left, Fraction right)
 {
     left.to_improper();
     right.to_improper();
+
     return left.get_numerator() * right.get_denominator() >
           right.get_numerator() * left.get_denominator();
 }
@@ -307,6 +335,7 @@ bool operator<(Fraction left, Fraction right)
 {
    left.to_improper();
    right.to_improper();
+
    return left.get_numerator() * right.get_denominator() <
          right.get_numerator() * left.get_denominator();
 
@@ -385,12 +414,14 @@ int main()
     cout << "(A -= B)" << (A -= B) << "\t\t\t" << endl;
     out << endl;*/
     A *= B;
-    cout << "(A *= B)" << A <<  endl;
-    cout << endl;
-    cout << "(A /= B)"<< (A /= B) << endl;
-    cout << endl;
+    A /= B;
+    A.print();
 
-    std::cout << "b += a; // " << A << "\n";
+   
+ /*   cout << "(A /= B)"<< (A /= B) << endl;
+    cout << endl;*/
+
+    /*std::cout << "b += a; // " << A << "\n";*/
 
     cout << "(A>B)" << (A > B) << boolalpha << endl;
     cout << "(A>=B)" << (A >= B) << boolalpha << endl;
