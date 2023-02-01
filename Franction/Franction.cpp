@@ -199,17 +199,23 @@ public :
     Fraction & operator *=(const Fraction other)
     {
        
-        /*Fraction f((this->numerator * other.numerator), (this->denominator * other.denominator));
-        return f;*/
-       /* return *this = *this * other;*/
+        
+        numerator = numerator * other.denominator + other.numerator * denominator;
+        denominator = denominator * other.denominator;
+       
+        Fraction fraction(numerator, denominator);
+        return fraction;
+        /*Fraction faction((this->numerator * other.numerator), (this->denominator * other.denominator));
+        return faction;*
+      
       /*  return ((*this) * other);*/
+       /* return *this = *this * other*/;
     }
 
     Fraction& operator/=(const Fraction& other)
     {
 
-        Fraction f((this->numerator / other.numerator), (this->denominator / other.denominator));
-        return f;
+       
     }
 
     /*Fraction& operator+=(const Fraction& other)
@@ -279,6 +285,7 @@ bool operator==(Fraction left, Fraction right)
 {
     left.to_improper();
     right.to_improper();
+
     return left.get_numerator() * right.get_denominator() ==
            right.get_numerator() * left.get_denominator();
 }
