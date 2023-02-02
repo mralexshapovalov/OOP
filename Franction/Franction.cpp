@@ -80,7 +80,7 @@ public :
         cout << "DefaultConstuctor " << this << endl;
     }
 
-    Fraction(int integer)
+   explicit Fraction(int integer)
     {
         this->integer = integer;
         this->numerator = 0;
@@ -129,7 +129,7 @@ public :
         this->denominator=other.denominator;
 
         cout << "Operator=" << this << endl;
-        return *thisж
+        return *this;
     }
 
     Fraction& to_proper() 
@@ -254,6 +254,13 @@ public :
     {
         return *this = *this - other;
     }
+
+    explicit operator int()const
+    {
+        
+        return Fraction(*this).to_proper().integer;
+
+    }
     
 };
 
@@ -317,7 +324,7 @@ bool operator==(Fraction left, Fraction right)
            right.get_numerator() * left.get_denominator();
 }
 
-bool operator !=(const Fraction left, const Fraction right)
+bool operator !=(const Fraction& left, const Fraction& right)
 {
     return !(left == right);
 }
@@ -365,11 +372,14 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
     return is;
 }
 
+
 //#define CONTUCTOR_CHEK
+
+//#define CONVERSION_OTHER_TO_CLASS
 int main()
 {
     setlocale(LC_ALL, "RUS");
- 
+
 #ifdef CONTUCTOR_CHEK
     Fraction A;
     A.print();
@@ -379,56 +389,54 @@ int main()
     Fraction C(2, 3);
     C.print();
 
-    Fraction D (2, 3, 4);
+    Fraction D(2, 3, 4);
     D.print();
 
-    Fraction E=D;
+    Fraction E = D;
     E.print();
 #endif CONTUCTOR_CHEK
 
 
-    Fraction A(2, 3, 4);
+#ifdef CONVERSION_OTHER_TO_CLASS
+
+
+
+
+
+    Fraction A = (Fraction)5;
+
     A.print();
 
-    Fraction B(3, 4, 5);
+
+    Fraction B;
+    B = Fraction(8);
     B.print();
+#endif // CONVERSION_OTHER_TO_CLASS
 
 
+    //Fraction A(2, 3, 4);
+    //A.print();
 
-   // Fraction C=A*B;
-   // C.print();
+    //int a = (int)A;
+    //cout << a << endl;
 
-   //Fraction D = A / B;
-   // D.print();
 
-   // Fraction E = A + B;
-   // E.print();
+#ifdef HOMEWORk1
 
-   // Fraction F = A - B;
-   // F.print();
+    Fraction B(2, 3, 4);
+    B.print();
+    cout << B << endl;
 
-  /* if (A == B)cout << "Дроби равны.";
-    else cout << "Дроби разные."; 
-    cout << "(A += B)" << (A += B) << "\t\t\t" << endl;
-    cout << endl;
-    cout << "(A -= B)" << (A -= B) << "\t\t\t" << endl;
-    out << endl;*/
-    A *= B;
-    A /= B;
-    A.print();
+#endif
+#ifdef HOMEWORk2
 
-   
- /*   cout << "(A /= B)"<< (A /= B) << endl;
-    cout << endl;*/
+    Fraction B = 2, 75;
 
-    /*std::cout << "b += a; // " << A << "\n";*/
+    cout << B << endl;
 
-    cout << "(A>B)" << (A > B) << boolalpha << endl;
-    cout << "(A>=B)" << (A >= B) << boolalpha << endl;
-    cout << "(A <B)" <<(A <  B)<<boolalpha<< endl;
-    cout << "(A<=B)" <<(A <= B)<<boolalpha<< endl;
-    cout << "(A==B)" <<(A == B)<<boolalpha<< endl;
-    cout << "(A!=B)" <<(A != B)<<boolalpha<< endl;
+#endif
+
+    Fraction A(2, 3, 4);
+    cout << A;
+
 }
-
-
