@@ -32,7 +32,6 @@ public:
         std::cout << "DefConstructor\t" << this << std::endl;
     };
 
-
     String(const char* str)
     {
         this->size = size;
