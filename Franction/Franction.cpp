@@ -329,7 +329,6 @@ Fraction operator*(Fraction left, Fraction right)
     //result.set_denominator(left.get_denominator() * right.get_denominator());
 }
 
-
 Fraction operator/( Fraction left,  Fraction right)
 {
 
