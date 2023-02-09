@@ -63,6 +63,7 @@ public:
 		std::cout << "Destructor\t" << this << std::endl;
 	}
 
+
 	String(const String& other) {
 
 
@@ -73,6 +74,16 @@ public:
 
 
 		std::cout << "CopyConstuctor:\t " << this << std::endl;
+	}
+	String( String&& other) noexcept
+	{
+
+		//ShalovCopy-поверхносное копирование
+		this->size = other.size;
+		this->str = other.str; //Shallow copy
+		other.size = 0;
+		other.str = nullptr;
+		std::cout << "MoveConstuctor:\t " << this << std::endl;
 	}
 
 	String& operator=(const String& other) {
@@ -86,6 +97,17 @@ public:
 			this->str[i] = other.str[i];
 
 		std::cout << "CopyAsigment:\t " << this << std::endl;
+		return *this;
+	}
+
+	String& operator=(String&& other) 
+	{
+
+		this->size = other.size;
+		this->str = other.str;
+		other.size = 0;
+		other.str = nullptr;
+		std::cout << "MoveAssignment:\t" << this << std::endl;
 		return *this;
 	}
 
@@ -108,7 +130,6 @@ public:
 	}
 
 	
-
 	void print()const
 	{
 		std::cout << "Size:\t" << size << std::endl;
@@ -138,10 +159,13 @@ std::ostream& operator << (std::ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
+//#define BASE_CHECK
+
 int main()
 {
 	setlocale(LC_ALL, "");
 
+#ifdef BASE_CHECK
 	String str1 = "Hello ";
 	//std::cout << str1 << std::endl;
 
@@ -149,15 +173,41 @@ int main()
 	//std::cout << str2 << std::endl;
 
 	String str3;
-	str3 = str1 + str2;//Конкатенация (слияние) строк
+	str3 = str1 + str2;//Конкатенация (слияние) строк //move constuctor
 	std::cout << str3 << std::endl;
 
 
 	//str1 = str1;
 	//std::cout << str1 << std::endl;
 
-	str1 += str2;
-	std::cout << str1 << std::endl;
+	////String str1 += str2;/
+	//std::cout << str1 << std::endl;
+
+	String str4 = str3;
+
+#endif // BASE_CHECK
+
+	String str1;//Default constructor
+	str1.print();
+	String str2="Hello";//Single argument constuctor
+	str2.print();
+	String str3 = str2;//CopyConstructor
+	str3.print();
+	String str4(); //Не вывзывается коструктор,тк здесь не создается объект
+	               //Обяъвляется str4 функция,которая не принимает никаких параметров
+	               //и возвращает значение типа String.
+
+	//str4.print();             //str4 -это не объект,а функция.А для функции вызывается объект.
+
+    //Если сы хотим явно вызвать конструктор по умолчания ,то это можно сделать так:
+	String str5{};
+	str5.print();
+	String str6{22};
+	str6.print();
+	String str7{ "World" };
+	str7.print();
+	String str8{ str7 };
+	
 }
 
 
