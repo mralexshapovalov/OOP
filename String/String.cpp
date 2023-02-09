@@ -32,15 +32,12 @@ public:
 	}
 	//Constuctor
 
-	explicit String(int size = 80)
+	explicit String(int size = 80) :size(size),str(new char[size]{})
 	{
-		this->size = size;
-		this->str = new char[size] {};
-
 		std::cout << "DefConstructor\t" << this << std::endl;
-	};
+	}
 
-	String(const char* str)
+	String(const char* str) :size(strlen(str) + 1), str(new char[size] {})
 	{
 		//this->size = size;
 		//this->str = new char[size] {};
@@ -48,11 +45,8 @@ public:
 
 		//std::cout << "1ArgConstuctor " << this << std::endl;
 
-		this->size = strlen(str) + 1;
-		this->str = new char[size] {};
+		
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
-
-
 		std::cout << "1ArgConstuctor " << this << std::endl;
 
 	}
@@ -64,29 +58,26 @@ public:
 	}
 
 
-	String(const String& other) {
+	String(const String& other) :size(other.size), str(new char[size] {})
+	{
 
-
-		this->size = other.size;
-		this->str = new char[size] {};
 		for (int i = 0; i < size; i++)
 			this->str[i] = other.str[i];
 
 
 		std::cout << "CopyConstuctor:\t " << this << std::endl;
 	}
-	String( String&& other) noexcept
+	String( String&& other) noexcept : size(other.size), str(other.str)
 	{
 
 		//ShalovCopy-поверхносное копирование
-		this->size = other.size;
-		this->str = other.str; //Shallow copy
-		other.size = 0;
+		
 		other.str = nullptr;
 		std::cout << "MoveConstuctor:\t " << this << std::endl;
 	}
 
-	String& operator=(const String& other) {
+	String& operator=(const String& other) 
+	{
 
 		if (this == &other)return *this;
 		delete[] this->str;
@@ -159,13 +150,16 @@ std::ostream& operator << (std::ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
-//#define BASE_CHECK
-
+#define BASE_CHECK
+//#define CALLING_CONSTUCTORS
 int main()
 {
 	setlocale(LC_ALL, "");
 
 #ifdef BASE_CHECK
+	String str(5);
+	str.print();
+	
 	String str1 = "Hello ";
 	//std::cout << str1 << std::endl;
 
@@ -177,6 +171,7 @@ int main()
 	std::cout << str3 << std::endl;
 
 
+	
 	//str1 = str1;
 	//std::cout << str1 << std::endl;
 
@@ -184,31 +179,36 @@ int main()
 	//std::cout << str1 << std::endl;
 
 	String str4 = str3;
+	str4.print();
 
 #endif // BASE_CHECK
 
+#ifdef  CALLING_CONSTUCTORS
 	String str1;//Default constructor
 	str1.print();
-	String str2="Hello";//Single argument constuctor
+	String str2 = "Hello";//Single argument constuctor
 	str2.print();
 	String str3 = str2;//CopyConstructor
 	str3.print();
 	String str4(); //Не вывзывается коструктор,тк здесь не создается объект
-	               //Обяъвляется str4 функция,которая не принимает никаких параметров
-	               //и возвращает значение типа String.
+				   //Обяъвляется str4 функция,которая не принимает никаких параметров
+				   //и возвращает значение типа String.
 
-	//str4.print();             //str4 -это не объект,а функция.А для функции вызывается объект.
+	//str4.print();//str4 -это не объект,а функция.А для функции вызывается объект.
 
-    //Если сы хотим явно вызвать конструктор по умолчания ,то это можно сделать так:
+	//Если сы хотим явно вызвать конструктор по умолчания ,то это можно сделать так:
 	String str5{};
 	str5.print();
-	String str6{22};
+	String str6{ 22 };
 	str6.print();
 	String str7{ "World" };
 	str7.print();
 	String str8{ str7 };
-	
+#endif //  CALLING_CONSTUCTORS
 }
+
+
+
 
 
 
