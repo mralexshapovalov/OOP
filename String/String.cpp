@@ -37,7 +37,7 @@ public:
 		std::cout << "DefConstructor\t" << this << std::endl;
 	}
 
-	String(const char* str) :size(strlen(str) + 1), str(new char[size] {})
+	String(const char* str) :String(strlen(str)+1)
 	{
 		//this->size = size;
 		//this->str = new char[size] {};
@@ -58,7 +58,7 @@ public:
 	}
 
 
-	String(const String& other) :size(other.size), str(new char[size] {})
+	String(const String& other) :String(other.str)
 	{
 
 		for (int i = 0; i < size; i++)
