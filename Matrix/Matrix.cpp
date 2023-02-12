@@ -4,18 +4,27 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+class Matrix;
 
+Matrix operator+(const Matrix&left, const Matrix& right);
+Matrix operator-(const Matrix& left, const Matrix& right);
+Matrix operator*(const Matrix& left, const Matrix& right);
+Matrix operator/(const Matrix& left, const Matrix& right);
 class Matrix 
 {
 private:
-    size_t size;
+    int row,col;
     int** matrix;
 
 public:
 
-    size_t get_size() const
+    int get_sizeRow() const
     {
-        return size;
+        return row;
+    }
+    int get_sizeCol() const
+    {
+        return col;
     }
 
     int **get_matrix() 
@@ -45,42 +54,89 @@ public:
         std::cout << "DefConstructor\t" << this << std::endl;
     };*/
 
-    Matrix(const int size) 
+    //Matrix() 
+    //{
+    //    this->size = size;
+    //    this->matrix = new int* [size] {};
+
+    //    for (int i = 0; i < size; i++)
+    //    {
+    //        matrix[i] = new int[size];
+
+    //        for (int j = 0; j < size; j++)
+    //        {
+
+    //            this->matrix[i][j] = matrix[i][j];
+    //            /*this->matrix[i][j] = matrix[i][j] = 1 + rand() % 9;;*/
+    //        }
+    //    }
+    //    std::cout << "1ArgConstuctor " << this << std::endl;
+
+    //}
+
+
+
+
+    Matrix(const int row, const int col)
     {
-        this->size = size ;
-        this->matrix = new int* [size]{};
+        this->row = row;
+        this->col = col;
+        this->matrix = new int* [row]{};
 
-        for (int i = 0; i < size; i++) 
+        for (int i = 0; i < row; i++) 
         {
-            matrix[i] = new int[size];
-            for (int j = 0; j < size; j++) 
-            {
+            this->matrix[i] = new int[row];
 
-                this->matrix[i][j] = matrix[i][j];
-                /*this->matrix[i][j] = matrix[i][j] = 1 + rand() % 9;;*/
-            }
-           
+            for (int j = 0; j < col; j++)
+            
+
+       /*       this->matrix[i][j]=matrix[i][j];*/
+
+                matrix[i][j] = matrix[i][j] = 1 + rand() % 9;
+            
         }
         std::cout << "1ArgConstuctor " << this << std::endl;
-
     }
+
 
     ~Matrix() 
     {
-        delete this->matrix;
+        for (int i = 0; i < row; i++)
+            delete[] matrix[i]; //деструктор удаляет из памяти динамический массив, созданный конструктором
+        delete[] matrix;
+
         std::cout << "Destructor\t" << this << std::endl;
     }
 
+    Matrix& operator+=(const Matrix& other)
+    {
+        return *this = *this + other;
+    }
+    Matrix& operator-=(const Matrix& other)
+    {
+        return *this = *this + other;
+    }
+    Matrix& operator*=(const Matrix& other)
+    {
+        return *this = *this + other;
+    }
+    Matrix& operator/=(const Matrix& other)
+    {
+        return *this = *this + other;
+    }
+    
+
+
     void print()const
     {
-        std::cout << "Size:\t" << size << std::endl;
+        std::cout << "Size:\t" << row <<col<< std::endl;
         std::cout << "matrix:\t" << matrix << std::endl;
 
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < row; i++)
         {
-            for (int j = 0; j < size; j++)
+            for (int j = 0; j < col; j++)
             {
-                std::cout << matrix[i][j] << " ";
+                std::cout << matrix[i][j]<<"\t";
             }
             std::cout <<std::endl;
         }
@@ -88,29 +144,81 @@ public:
     }
 
 
+
+    //int operator[](int i,int j)const
+    //{
+
+    //    return matrix[i][j];
+    //}
+
+    //int& operator[](int i, int j)const
+    //{
+
+    //    return matrix[i][j];
+    //}
+
+    int& operator()(int i, int j)//перегрузка круглых скобок для матрицы.
+    {                             // Если m - матрица, то m(i,j) будет
+        return matrix[i][j];  //означать i,j-тый элемент матрицы
+    }
+
+    int operator()(int i, int j) const//перегрузка круглых скобок для матрицы.
+    {                             // Если m - матрица, то m(i,j) будет
+        return matrix[i][j];  //означать i,j-тый элемент матрицы
+    }
+
 };
-//Matrix operator+(const Matrix left, const Matrix right) 
-//{
-//
-//    Matrix cat(left.get_size() + right.get_size() - 1);
-//    for (int i = 0; i < left.get_size(); i++)
-//        cat.get_matrix()[i] = left.get_matrix()[i];
-//        /*cat[i] = left[i];*/
-//
-//    for (int i = 0; i < right.get_size(); i++)
-//        cat.get_matrix()[i + left.get_size() - 1] = right.get_matrix()[i];
-//       /* cat[i + left.get_size() - 1] = right[i];*/
-//
-//    return cat;
-//
-//
+
+Matrix operator+( const Matrix& left,  const Matrix& right)
+{
+    
+
+    Matrix temp(left.get_sizeRow(), left.get_sizeCol());
+    for (int i = 0; i < left.get_sizeRow(); i++)
+        for (int j = 0; j < left.get_sizeCol(); j++)
+            temp(i, j) = left(i, j) + right(i, j);
+    temp.print();
+    return temp;
+}
+
+Matrix operator-(const Matrix& left, const Matrix& right)
+{
 
 
+    Matrix temp(left.get_sizeRow(), left.get_sizeCol());
+    for (int i = 0; i < left.get_sizeRow(); i++)
+        for (int j = 0; j < left.get_sizeCol(); j++)
+            temp(i, j) = left(i, j) - right(i, j);
+    temp.print();
+    return temp;
+}
+//
+Matrix operator*(const Matrix& left, const Matrix& right)
+{
 
-//std::ostream& operator << (std::ostream& os, const Matrix& obj)
-//{
-//    return os << obj.ma();
-//}
+
+    Matrix temp(left.get_sizeRow(), left.get_sizeCol());
+    for (int i = 0; i < left.get_sizeRow(); i++)
+        for (int j = 0; j < left.get_sizeCol(); j++)
+            temp(i, j) = left(i, j) * right(i, j);
+    temp.print();
+    return temp;
+}
+
+Matrix operator/(const Matrix& left, const Matrix& right)
+{
+
+
+    Matrix temp(left.get_sizeRow(), left.get_sizeCol());
+    for (int i = 0; i < left.get_sizeRow(); i++)
+        for (int j = 0; j < left.get_sizeCol(); j++)
+            temp(i, j) = left(i, j) / right(i, j);
+
+    temp.print();
+    return temp;
+}
+
+
 
 //Matrix operator+(const Matrix& A, const Matrix& B)
 ///* Pre: A and B are non-empty matrices with the same size. Return: A+B.*/
@@ -130,11 +238,12 @@ public:
 //}
 
 
+
 std::ostream& operator << (std::ostream& os, const Matrix& obj)
 {
-    for (int i = 0; i < obj.get_size(); i++)
+    for (int i = 0; i < obj.get_sizeRow(); i++)
     {
-        for (int j = 0; j < obj.get_size(); j++)
+        for (int j = 0; j < obj.get_sizeCol(); j++)
         {
             os << obj.get_matrix()[i][j];
         }
@@ -148,9 +257,9 @@ std::ostream& operator << (std::ostream& os, const Matrix& obj)
 std::istream& operator>> (std::istream& input, Matrix& obj) 
 {
 
-    for (int i = 0; i < obj.get_size(); i++)
+    for (int i = 0; i < obj.get_sizeRow(); i++)
     {
-        for (int j = 0; j < obj.get_size(); j++)
+        for (int j = 0; j < obj.get_sizeCol(); j++)
         {
             input >> obj.get_matrix()[i][j];
         }
@@ -163,19 +272,33 @@ std::istream& operator>> (std::istream& input, Matrix& obj)
 int main()
 {
     
-    /*Matrix A(5);
-   
-    A.print();
-    std::cout << std::endl;
-    Matrix B(5);
+    Matrix A(2,2);
+  
 
-    B.print();*/
+ 
+    Matrix B(2,2);
 
-    /*Matrix C = A + B;
+
+   /* Matrix C = A + B;
     C.print();*/
 
-    Matrix C(4);
-    std::cin >> C;
-    std::cout << C << std::endl;
+
+    //A += B;
+    //A.print();
+    //std::cout << "He" << std::endl;
+
+   
+
+
+ /*   Matrix D= A - B;
+    D.print();*/
+
+  /* Matrix E = A * B;
+    E.print();*/
+
+    Matrix F = A / B;
+    F.print();
+
+
 }
 
