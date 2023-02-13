@@ -1,47 +1,5 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
-
-class String;
-using namespace std;
-String operator+(const String& left, const String& right);
-
-class String
-{
-	int size; //Размер строки
-	char* str; //Адресс строки в динамической памяти
-
-public:
-
-	int get_size()const;
-	const char* get_str()const;
-	char* get_str();
-
-	//				Constructors:
-	explicit String(int size = 80);
-	String(const char* str);
-	String(const String& other);
-	String(String&& other);
-	~String();
-
-	//					Operators:
-	String& operator=(const String& other);
-	String& operator=(String&& other);
-	String& operator+=(const String& other);
-
-	 char operator[](int i)const;
-	char& operator[](int i);
-
-	//					Methods:
-	void print()const;
-
-
-};
-////////////////////////////// Сlass declaration END///////////////////////////////////////////
-
-//-------------------------------------------------------------------------------------------//
-
-////////////////////////////// Class Defenition END/////////////////////////////////////////////
-int String:: get_size()const
+#include"String.h"
+int String::get_size()const
 {
 	return size;
 }
@@ -66,7 +24,7 @@ String::String(const  char* str) :String(strlen(str) + 1)
 {
 	//this->size = size;
 	//this->str = new char[size] {};
-	//strcpy(this->str, str); //копирует данные из строки
+	//strcpy(this->str, str); //�������� ������ �� ������
 
 	//std::cout << "1ArgConstuctor " << this << std::endl;
 
@@ -79,14 +37,14 @@ String::String(const  char* str) :String(strlen(str) + 1)
 
 String::String(const String& other) :String(other.str)
 {
-	
-	std::cout  << "CopyConstructor:" << this << std::endl;
+
+	std::cout << "CopyConstructor:" << this << std::endl;
 }
 String::String(String&& other) : size(other.size), str(other.str)
 {
-	
+
 	other.str = nullptr;
-	
+
 	std::cout << "MoveConstructor:" << this << std::endl;
 }
 
@@ -134,7 +92,7 @@ char String :: operator[](int i)const
 	return str[i];
 }
 
- char& String :: operator[](int i)
+char& String :: operator[](int i)
 {
 
 	return str[i];
@@ -165,72 +123,8 @@ String operator+(const String& left, const String& right)
 	return cat;
 }
 
- 
+
 std::ostream& operator << (std::ostream& os, const String& obj)
 {
 	return os << obj.get_str();
 }
-
-//#define BASE_CHECK
-//#define CALLING_CONSTUCTORS
-int main()
-{
-	setlocale(LC_ALL, "");
-
-#ifdef BASE_CHECK
-	String str(5);
-	str.print();
-	
-	String str1 = "Hello ";
-	//std::cout << str1 << std::endl;
-
-	String str2 = "World";
-	//std::cout << str2 << std::endl;
-
-	String str3;
-	str3 = str1 + str2;//Конкатенация (слияние) строк //move constuctor
-	std::cout << str3 << std::endl;
-
-
-	
-	//str1 = str1;
-	//std::cout << str1 << std::endl;
-
-	////String str1 += str2;/
-	//std::cout << str1 << std::endl;
-
-	/*String str4 = str3;
-	str4.print();*/
-
-#endif // BASE_CHECK
-
-#ifdef  CALLING_CONSTUCTORS
-	String str1;//Default constructor
-	str1.print();
-	String str2 = "Hello";//Single argument constuctor
-	str2.print();
-	String str3 = str2;//CopyConstructor
-	str3.print();
-	String str4(); //Не вывзывается коструктор,тк здесь не создается объект
-				   //Обяъвляется str4 функция,которая не принимает никаких параметров
-				   //и возвращает значение типа String.
-
-	//str4.print();//str4 -это не объект,а функция.А для функции вызывается объект.
-
-	//Если сы хотим явно вызвать конструктор по умолчания ,то это можно сделать так:
-	String str5{};
-	str5.print();
-	String str6{ 22 };
-	str6.print();
-	String str7{ "World" };
-	str7.print();
-	String str8{ str7 };
-#endif //  CALLING_CONSTUCTORS
-}
-
-
-
-
-
-
-
