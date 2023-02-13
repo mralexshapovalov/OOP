@@ -40,27 +40,25 @@ public:
         return matrix;
     }
 
-    void set_matrix(int** matrix)
+
+   /* Matrix( int rows=6,  int cols=6) :ROWS(rows), COLS(cols), matrix(new int* [rows] {})
     {
-        this->matrix = matrix;
-    }
-
-
-    Matrix( int rows=6,  int cols=6) :ROWS(rows), COLS(cols), matrix(new int* [rows] {})
-     {
         std::cout << "DefConstructor\t" << this << std::endl;
-     }
+    }*/
 
 
     Matrix(const int rows, const int cols):ROWS(rows), COLS(cols), matrix(new int* [rows] {})
     {
         for (int i = 0; i < rows; i++)
         {
-            this->matrix[i] = new int[rows];
+            matrix[i] = new int [rows];
+
             for (int j = 0; j < cols; j++)
+
                 /*       this->matrix[i][j]=matrix[i][j];*/
 
-                this->matrix[i][j] =  rand() % 9+0; //Происходит переполнение буфера 
+                matrix[i][j] = 1+ rand() % 50;  //Происходит переполнение буфера...ХЗ 
+           
 
         }
         std::cout << "1ArgConstuctor " << this << std::endl;
@@ -69,8 +67,10 @@ public:
 
     ~Matrix()
     {
-        for (int i = 0; i < ROWS; i++)
-            delete[] matrix[i]; //деструктор удаляет из памяти динамический массив, созданный конструктором
+        for (int i = 0; i < ROWS; i++) 
+        
+            delete[] matrix[i];         //деструктор удаляет из памяти динамический массив, созданный конструктором
+
         delete[] matrix;
 
         std::cout << "Destructor\t" << this << std::endl;
@@ -122,8 +122,6 @@ public:
     }
     /*Matrix& Search()
     {
-       
-        
 
             for (int i = 0; i < row; i++)
             {
@@ -247,10 +245,11 @@ std::istream& operator>> (std::istream& input, Matrix& obj)
 int main()
 {
     
-    Matrix G();
-    std::cout << G << std::endl;
+   /* Matrix G();
+    std::cout << G << std::endl;*/
 
-    Matrix A(2,2);
+    Matrix A(10,10);
+    A.Sort();
     A.print();
    // A.Sort()*/;
    // A.print();
