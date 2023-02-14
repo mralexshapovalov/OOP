@@ -66,7 +66,7 @@ int main()
 //
 //
     Fraction B = 2.75;
-    B.print();
+    
 
     double b = (double)B;
     cout << B << endl;
