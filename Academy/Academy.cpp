@@ -7,37 +7,31 @@
 
 class Human 
 {
+private:
 
     std::string last_name;
     std::string first_name;
     tm birth_date; //tm -timepoint Структура,содержащая календарную дату и время,разбитые на составляющие.
 
-
 public:
 
     const std::string& get_last_name()const 
     {
-
         return last_name;
-
     }
 
     const std::string& get_first_name()const
     {
-
         return first_name;
-
     }
 
     tm get_birth_date()const 
     {
-
         return birth_date;
     }
 
     unsigned int get_age()const
     {
-
         time_t t_today = time(NULL);//Получаем текщию дату /время в формата Timestamp
         tm* tm_today = localtime(&t_today);
 
@@ -48,28 +42,23 @@ public:
 
         return age;
     }
+
     void set_last_name(const std::string& last_name) 
     {
-
         this->last_name = last_name;
     }
 
     void set_firs_name(const std::string& first_name) 
     {
-
         this->first_name = first_name;
     }
 
     void set_birthday_data(int year, int month, int day) 
     {
-
         birth_date.tm_year = year - 1900;
         birth_date.tm_mon = month - 1;
         birth_date.tm_mday = day;
     }
-
-
-    //Constuctor
 
     Human (const std:: string& last_name,const std::string& first_name,int year,int month,int day)
     {
@@ -94,12 +83,9 @@ public:
     {
         std::cout << last_name << " " << first_name << " " << get_age() << " " << std::endl;
     }
-
-
-  
 };
 
-class Stident:public Human 
+class Student:public Human 
 {
     std::string speciality;
     std::string group;
@@ -163,11 +149,10 @@ public:
 
     Student
     (
-
         const std::string& last_name, const std::string& first_name, int year, int month, int day,
-        const std::string& speciality, const std::string& group, double rating, double attendance)
-        :Human(last_name, first_name, year, month, day)//вызов конструктора базового классаа
-        
+        const std::string& specialty, const std::string& group, double rating, double attendance
+    ) :Human(last_name, first_name, year, month, day)//вызов конструктора базового классаа
+ 
     {
 
         set_speciality(speciality);
@@ -215,8 +200,15 @@ int main()
     Human human("Тупенко","Василий",1997,07,06);
     human.info();
 
-    Stident student("Тупенко", "Василий", 1997, 07, 06, "IT", "Start", 60, 30);
+    Student student("Тупенко", "Василий", 1997, 07, 06, "IT", "Start", 60, 30);
     student.info();
+
+    int x = 10;
+    int* p;
+    p = &x;
+    std::cout << "Address = " << p << std::endl;
+    std::cout << "Value = " << *p << std::endl;
+    return 0;
 
 }
 
