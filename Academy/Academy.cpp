@@ -5,6 +5,9 @@
 #include <iostream>
 
 
+#define HUMAN_TAKE_PARAMETERS const std:: string& last_name,const std::string& first_name,int year,int month,int day
+#define HUMAN_GIVE_PARAMETERS last_name,first_name,year,month,day
+
 class Human 
 {
 private:
@@ -60,9 +63,8 @@ public:
         birth_date.tm_mday = day;
     }
 
-    Human (const std:: string& last_name,const std::string& first_name,int year,int month,int day)
+    Human (HUMAN_TAKE_PARAMETERS)
     {
-    
         set_last_name(last_name);
         set_firs_name(first_name);
 
@@ -71,22 +73,25 @@ public:
         std::cout << "HConstructor:\t" << this << std::endl;
     
     }
-    ~Human() {
-
-
+   virtual ~Human() 
+   {
         std::cout << "HDetructor:\t" << this << std::endl;
-
-    }
+   }
     //Methods
 
-    void info()const
+    virtual void info()const
     {
         std::cout << last_name << " " << first_name << " " << get_age() << " " << std::endl;
     }
 };
 
+#define STUDENT_TAKE_PARAMETERS  const std::string& specialty, const std::string& group, double rating, double attendance
+#define STUDENT_GIVE_PARAMETERS specialty,group,rating,attendance
+
 class Student:public Human 
 {
+private:
+
     std::string speciality;
     std::string group;
     double rating;
@@ -96,65 +101,47 @@ public:
 
     const std::string& get_speciality()const
     {
-
         return speciality;
-
     }
 
 
     const std::string& get_group()const
     {
-
         return group;
-
     }
-    double get_rating()const {
 
-
+    double get_rating()const 
+    {
         return rating;
-
     }
 
-    double get_attendance()const {
-
-
+    double get_attendance()const 
+    {
         return attendance;
-
     }
 
     void set_speciality(const std::string& speciality)
     {
-
         this->speciality = speciality;
     }
 
     void set_group(const std::string& group)
     {
-
         this->group = group;
     }
 
     void set_rating(double ratting)
     {
-
         this->rating = ratting;
     }
 
     void set_attendance(double attendance)
     {
-
         this->attendance = attendance;
     }
 
-
-    Student
-    (
-        const std::string& last_name, const std::string& first_name, int year, int month, int day,
-        const std::string& specialty, const std::string& group, double rating, double attendance
-    ) :Human(last_name, first_name, year, month, day)//вызов конструктора базового классаа
- 
+    Student(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS):Human(HUMAN_GIVE_PARAMETERS)//вызов конструктора базового классаа
     {
-
         set_speciality(speciality);
         set_group(group);
         set_rating(rating);
@@ -163,22 +150,111 @@ public:
         std::cout << "SConstructor:\t" << this << std::endl;
     }
 
-    ~Student() {
-
-
-        std::cout << "SDetructor:\t" << this << std::endl;
-
-
+    Student(const Human& human, STUDENT_TAKE_PARAMETERS):Human(human)
+    {
+        set_speciality(specialty);
+        set_group(group);
+        set_rating(rating);
+        set_attendance(attendance);
+        std::cout << "SConstructor:\t" << this <<std::endl;
     }
+
+    ~Student() 
+    {
+        std::cout << "SDetructor:\t" << this << std::endl;
+    }
+
     void info()const
     {
+        Human::info();
         std::cout << speciality << " " << group << " " << rating << " " <<attendance<< std::endl;
     }
 
 };
 
-#define TIME
+#define TEACHER_TAKE_PARAMETERS	const std::string& specialty, unsigned int experience
+class Teacher :public Human
+{
+private:
 
+    std::string specialty;
+    unsigned int experience;
+
+public:
+
+    const std::string& get_specialty()const
+    {
+        return specialty;
+    }
+
+    unsigned int get_experience()const
+    {
+        return experience;
+    }
+
+    void set_specialty(const std::string& specialty)
+    {
+        this->specialty = specialty;
+    }
+
+    void set_experience(unsigned int experience)
+    {
+        this->experience = experience;
+    }
+
+    //				Constructor:
+    Teacher(HUMAN_TAKE_PARAMETERS, TEACHER_TAKE_PARAMETERS) :Human(HUMAN_GIVE_PARAMETERS)
+    {
+        set_specialty(specialty);
+        set_experience(experience);
+        std::cout << "TConstructor:\t" << this << std::endl;
+    }
+    ~Teacher()
+    {
+        std::cout << "TDestructor:\t" << this << std::endl;
+    }
+
+    void info()const
+    {
+        Human::info();
+        std::cout << specialty << " " << experience << " \n";
+    }
+};
+
+class Graduate :public Student
+{
+private:
+
+    std::string subject;
+
+public:
+
+    const std::string& get_subject()const
+    {
+        return subject;
+    }
+    void set_subject(const std::string& subject)
+    {
+        this->subject = subject;
+    }
+    Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, const std::string& subject):Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS)
+    {
+        set_subject(subject);
+        std::cout << "GConstructor:\t" << this << std::endl;
+    }
+    ~Graduate()
+    {
+        std::cout << "GDestructor:\t" << this << std::endl;
+    }
+    void info()const
+    {
+        Student::info();
+        std::cout << subject << std::endl;
+    }
+};
+
+#define TIME
+#define NHERITANCE_CHECK
 int main()
 {
 
@@ -197,18 +273,52 @@ int main()
 #endif // TIME
 
 
-    Human human("Тупенко","Василий",1997,07,06);
+#ifdef INHERITANCE_CHECK
+    Human human("Òóïåíêî", "Âàñèëèé", 1990, 04, 01);
     human.info();
 
-    Student student("Тупенко", "Василий", 1997, 07, 06, "IT", "Start", 60, 30);
+    //Student student("Òóïåíêî", "Âàñèëèé", 1990, 04, 01, "IT", "start", 60, 30);
+    Student student(human, "IT", "start", 60, 30);
     student.info();
 
-    int x = 10;
-    int* p;
-    p = &x;
-    std::cout << "Address = " << p << std::endl;
-    std::cout << "Value = " << *p << std::endl;
-    return 0;
+    Teacher teacher("Einstein", "Albert", 1879, 03, 14, "Atronomy", 120);
+    teacher.info();
+
+    Graduate graduate("Abignale", "Frank", 1920, 01, 02, "Artist", "Criminal", 98, 11, "Foregry documents");
+    graduate.info();
+
+#endif // INHERITANCE_CHECK
+
+    //Polymorphism
+    /*
+    ----------------
+    Ad-Hoc polymorphism
+    ----------------
+    1. Pointer to base class
+        (Generalisation - Îáîáùåíèå)
+        Upcast - ïðåîáðàçîâàíèå äî÷åðíåãî îáúåêòà â áàçîâûé òèï.
+    2. Virtual methods;
+    */
+
+    Human* group[] =
+    {
+        new Student("Pinkman", "Jessie", 1990, 03,04, "Chemistry", "WW_220", 90, 95),
+        new Teacher("White", "Walter", 1960, 9, 20, "Chemistry", 25),
+        new Graduate("Schrader", "Hank", 1970, 06,07, "Criminalistic", "WW_220", 75, 80, "How to catch Heizenberg"),
+        new Student("Vercetty", "Tomas", 1970, 05, 25, "Criminalistic", "Vice", 90, 95),
+        new Teacher("Diaz", "Ricardo", 1960, 03,03, "Weapons distribution", 20)
+    };
+
+    for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+    {
+        group[i]->info();
+        std::cout << "\n--------------------------------------------\n";
+    }
+
+    for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
+    {
+        delete group[i];
+    }
 
 }
 
