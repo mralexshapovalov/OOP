@@ -64,11 +64,18 @@ public:
 	}
 
 	//					Methods:
-	virtual void info()const
+	virtual std::ostream& info(std::ostream& os)const
 	{
-		cout << last_name << " " << first_name << " " << get_age() << endl;
+		return os << last_name << " " << first_name << " " << get_age() << endl;
 	}
 };
+
+std::ostream& operator <<(std::ostream& os, const Human& obj)
+{
+
+	return obj.info(os);
+
+}
 
 #define STUDENT_TAKE_PARAMETERS	const std::string& specialty, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETERS	specialty, group, rating, attendance
@@ -134,14 +141,16 @@ public:
 		set_attendance(attendance);
 		cout << "SConstructor:\t" << this << endl;
 	}
+
 	~Student()
 	{
 		cout << "SDestructor:\t" << this << endl;
 	}
-	void info()const
+
+	std::ostream& info(std::ostream& os)const
 	{
-		Human::info();
-		cout << specialty << " " << group << " " << rating << " " << attendance << endl;
+	
+		return Human::info(os)<<" " << specialty << " " << group << " " << rating << " " << attendance;
 	}
 };
 
@@ -155,14 +164,17 @@ public:
 	{
 		return specialty;
 	}
+
 	unsigned int get_experience()const
 	{
 		return experience;
 	}
+
 	void set_specialty(const std::string& specialty)
 	{
 		this->specialty = specialty;
 	}
+
 	void set_experience(unsigned int experience)
 	{
 		this->experience = experience;
@@ -175,17 +187,20 @@ public:
 		set_experience(experience);
 		cout << "TConstructor:\t" << this << endl;
 	}
+
 	~Teacher()
 	{
 		cout << "TDestructor:\t" << this << endl;
 	}
 
-	void info()const
+	std::ostream& info(std::ostream& os)const
 	{
-		Human::info();
-		cout << specialty << " " << experience << " ëåò.\n";
+
+		Human::info(os);
+		return Human::info(os) << specialty << " " << experience;
 	}
 };
+
 
 class Graduate :public Student
 {
@@ -195,26 +210,32 @@ public:
 	{
 		return subject;
 	}
+
 	void set_subject(const std::string& subject)
 	{
 		this->subject = subject;
 	}
+
 	Graduate(HUMAN_TAKE_PARAMETERS, STUDENT_TAKE_PARAMETERS, const std::string& subject)
 		:Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS)
 	{
 		set_subject(subject);
 		cout << "GConstructor:\t" << this << endl;
 	}
+
 	~Graduate()
 	{
 		cout << "GDestructor:\t" << this << endl;
 	}
-	void info()const
+
+	std::ostream& info(std::ostream& os)const
 	{
-		Student::info();
-		cout << subject << endl;
+		Human::info(os);
+		return Human::info(os) << subject << endl;
 	}
+
 };
+
 
 //#define TIME_CHECK
 //#define INHERITANCE_CHECK
@@ -269,7 +290,8 @@ void main()
 
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
-		group[i]->info();
+		//group[i]->info();
+		cout << *group[i] << endl;
 		cout << "\n--------------------------------------------\n";
 	}
 
