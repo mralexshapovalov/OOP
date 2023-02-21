@@ -27,8 +27,7 @@ public:
 	}
 	unsigned int get_age()const
 	{
-		time_t t_today = time(NULL);	//Ïîëó÷àåì òåêóùèå äàòó/âðåìÿ â ôîðìàòå Timestamp
-		//cout << today << endl;
+		time_t t_today = time(NULL);	
 		tm* tm_today = localtime(&t_today);
 		unsigned int age = tm_today->tm_year - birth_date.tm_year;
 		if (tm_today->tm_mon < birth_date.tm_mon)age--;
@@ -63,6 +62,11 @@ public:
 		cout << "HDestructors:\t" << this << endl;
 	}
 
+	/*virtual void info()const
+	{
+		cout << last_name << " " << first_name << " " << get_age() << endl;
+	}*/
+
 	//					Methods:
 	virtual std::ostream& info(std::ostream& os)const
 	{
@@ -77,6 +81,14 @@ std::ostream& operator <<(std::ostream& os, const Human& obj)
 
 }
 
+//std::ostream& operator <<(std::ostream& os, const Human& obj)
+//{
+//
+//	return os << obj.get_last_name() << " " << obj.get_first_name() << " " << obj.get_age() << endl;
+//
+//}
+
+
 #define STUDENT_TAKE_PARAMETERS	const std::string& specialty, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETERS	specialty, group, rating, attendance
 class Student : public Human
@@ -85,6 +97,7 @@ class Student : public Human
 	std::string group;
 	double rating;
 	double attendance;
+
 public:
 	const std::string& get_specialty()const
 	{
@@ -147,12 +160,27 @@ public:
 		cout << "SDestructor:\t" << this << endl;
 	}
 
+	//void info()const
+	//{
+	//	Human::info();
+	//	cout << specialty << " " << group << " " << rating << " " << attendance << endl;
+	//}
+
 	std::ostream& info(std::ostream& os)const
 	{
 	
 		return Human::info(os)<<" " << specialty << " " << group << " " << rating << " " << attendance;
 	}
 };
+
+//std::ostream& operator <<(std::ostream& os, const Student& obj)
+//{
+//
+//	return os << (Human&)obj<<" "<<obj.get_specialty()<<" "<< " " << obj.get_group() << " " <<obj.get_rating() << " " <<obj.get_attendance();
+//
+//}
+
+
 
 #define TEACHER_TAKE_PARAMETERS	const std::string& specialty, unsigned int experience
 class Teacher :public Human
@@ -193,14 +221,27 @@ public:
 		cout << "TDestructor:\t" << this << endl;
 	}
 
+	/*void info()const
+	{
+		Human::info();
+		cout << specialty << " " << experience << endl;
+	}*/
+
+
 	std::ostream& info(std::ostream& os)const
 	{
 
 		Human::info(os);
 		return Human::info(os) << specialty << " " << experience;
 	}
-};
 
+};
+////std::ostream& operator <<(std::ostream& os, const Teacher& obj)
+////{
+////
+////	return os << (Human&)obj << " " << obj.get_specialty() << " " << obj.get_experience() << endl;
+//
+//}
 
 class Graduate :public Student
 {
@@ -228,6 +269,12 @@ public:
 		cout << "GDestructor:\t" << this << endl;
 	}
 
+	/*void info()const
+	{
+		Student::info();
+		cout << subject << endl;
+	}*/
+
 	std::ostream& info(std::ostream& os)const
 	{
 		Human::info(os);
@@ -236,6 +283,12 @@ public:
 
 };
 
+//std::ostream& operator <<(std::ostream& os, const Graduate& obj)
+//{
+//
+//	return os << (Student&)obj << " " << obj.get_subject() << endl;
+//
+//}
 
 //#define TIME_CHECK
 //#define INHERITANCE_CHECK
@@ -290,8 +343,15 @@ void main()
 
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
-		//group[i]->info();
+		/*group[i]->info();*/
 		cout << *group[i] << endl;
+
+		/*cout << typeid(*group[i]).name() << ":\t";
+
+		if (typeid(*group[i])) == typeid(Student))cout << *dynamic_cast<Student*>(group[i]) << endl;
+		if (typeid(*group[i])) == typeid(Teacher))cout << *dynamic_cast<Teacher*>(group[i]) << endl;
+		if (typeid(*group[i])) == typeid(Graduate))cout << *dynamic_cast<Graduate*>(group[i]) << endl;*/
+
 		cout << "\n--------------------------------------------\n";
 	}
 
