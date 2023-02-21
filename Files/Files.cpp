@@ -18,7 +18,6 @@ int main()
     std::cin.getline(fileName, _MAX_FNAME);
     if (strcmp(fileName + strlen(fileName) - 4, ".txt"))
         strcat_s(fileName, _MAX_FNAME, ".txt");
-
     std::ofstream fout;//1)Создаем поток:
     fout.open(fileName, std::ios_base::app); //2)Открываем поток
 
