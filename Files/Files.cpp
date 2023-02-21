@@ -5,6 +5,7 @@
 #include<fstream>
 
 
+
 //char fileName[_MAX_FNAME] = {};
 //std::cout << "Введите имя файла:";
 //std::cin.getline(fileName, _MAX_FNAME);
@@ -55,14 +56,41 @@
 //
 //#endif // DEBUG
 
+//#define SAVE_FILE
+
+
 int main()
 {
+    
     setlocale(LC_ALL, "RUS");
 
 
+#ifdef SAVE_FILE
+    std::string path = "myFile.txt";
+
+    std::ofstream fout;
+
+    fout.open(path, std::ofstream::app);
+
+    if (!fout.is_open())
+    {
+
+        std::cout << "Ошибка открытия файла" << std::endl;
+
+    }
+    else
+    {
+        std::cout << "Ввелите число";
+        int a;
+        std::cin >> a;
+        fout << a;
+        fout << "Открытие файла";
+    }
 
 
-  
+    fout.close();
+#endif // SAVE_FILE
+
    
 
 }
