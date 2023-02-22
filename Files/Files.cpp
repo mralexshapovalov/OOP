@@ -1,6 +1,6 @@
 ﻿// Files.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include<fstream>
 #include <windows.h>
@@ -109,31 +109,31 @@ int main()
     system("notpad Fill.txt");//Функция system()запускает любую программы к которой есть PATH в Windows (PATH-Путь)
 
 #endif // DEBUG
+    //FILE* fp = fopen("https://github.com/okovtun/PV_225/blob/master/Inheritance/Files/NetworkTask/201%20RAW.txt", "r");
+    ////std::ifstream fin("Fill.txt"); //Поток открывается прямо при создании
 
-    std::ifstream fin("Fill.txt"); //Поток открывается прямо при создании
+    //if (fp.is_open())
+    //{
+    //    //Будем читать файл
+    //    const int SIZE = 256;//Буфер
+    //    char buffer[SIZE] = {};
+    // 
+    //    while (!*fp.eof())
+    //    {
+    //        
+    //        fin.getline(buffer, SIZE);
 
-    if (fin.is_open()) 
-    {
-        //Будем читать файл
-        const int SIZE = 256;//Буфер
-        char buffer[SIZE] = {};
-     
-        while (!fin.eof()) 
-        {
-            
-            fin.getline(buffer, SIZE);
+    //        /*fin >> buffer;*/
+    //        std::cout << buffer <<std::endl;
 
-            /*fin >> buffer;*/
-            std::cout << buffer <<std::endl;
+    //    }
+    //    fin.close();
+    //}
 
-        }
-        fin.close();
-    }
-
-    else
-    {
-        std::cerr << "Error:file not found" <<std:: endl;
-    }
+    //else
+    //{
+    //    std::cerr << "Error:file not found" <<std:: endl;
+    //}
 
    
 
