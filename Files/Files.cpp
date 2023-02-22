@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include<fstream>
-
+#include <windows.h>
+#include <shellapi.h>
 
 
 //char fileName[_MAX_FNAME] = {};
@@ -119,7 +120,7 @@ int main()
      
         while (!fin.eof()) 
         {
-
+            
             fin.getline(buffer, SIZE);
 
             /*fin >> buffer;*/
