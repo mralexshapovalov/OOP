@@ -58,6 +58,8 @@
 
 //#define SAVE_FILE
 
+//#define WHRITE_TO_FILE
+  #define READ_FROM_FILE
 
 int main()
 {
@@ -90,6 +92,47 @@ int main()
 
     fout.close();
 #endif // SAVE_FILE
+
+#ifdef WHRITE_TO_FILE
+
+    std::ofstream fout; //1)Создаем поток
+    fout.open("Fill.txt", std::ios::app);//2)Открываем поток
+    //std::ios::app-append,не переписывать
+    //3)Пишем поток:
+
+
+    fout << "HelloFile" << std::endl;
+    fout.close();//Закрываем поток
+
+
+    system("notpad Fill.txt");//Функция system()запускает любую программы к которой есть PATH в Windows (PATH-Путь)
+
+#endif // DEBUG
+
+    std::ifstream fin("Fill.txt"); //Поток открывается прямо при создании
+
+    if (fin.is_open()) 
+    {
+        //Будем читать файл
+        const int SIZE = 256;//Буфер
+        char buffer[SIZE] = {};
+     
+        while (!fin.eof()) 
+        {
+
+            fin.getline(buffer, SIZE);
+
+            /*fin >> buffer;*/
+            std::cout << buffer <<std::endl;
+
+        }
+        fin.close();
+    }
+
+    else
+    {
+        std::cerr << "Error:file not found" <<std:: endl;
+    }
 
    
 
