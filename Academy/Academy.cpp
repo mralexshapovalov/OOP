@@ -2,6 +2,8 @@
 #include<iostream>
 #include<string>
 #include<ctime>
+#include<fstream>
+
 using namespace std;
 
 #define HUMAN_TAKE_PARAMETERS	const std::string& last_name, const std::string& first_name, int year, int month, int day
