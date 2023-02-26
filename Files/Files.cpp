@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <string>
-
+#include<fstream>
 
 //#ifdef READ_TO_FILE
 //
@@ -121,32 +121,72 @@ int main(void)
 
 
 
-std::ifstream fin;
+//std::ifstream fin;
+//
+//fin.open("201 RAW.txt");
+//
+//
+//if (fin.is_open())
+//{
+//
+//    const int SIZE = 1500;
+//    char sz_buffer[SIZE]{};
+//
+//    while (!fin.eof())
+//    {
+//
+//        //fin >> sz_buffer;
+//        fin.getline(sz_buffer, SIZE);
+//        std::cout << sz_buffer << std::endl;
+//    }
+//    fin.close();
+//
+//   
+//}
+//
+// else
+// {
+//    std::cerr << "Error:File not found" << std::endl;
+// }
 
-fin.open("File.txt");
+std::ifstream input("201 RAW.txt"); //Открываешь первый файл для чтения
+std::string string; //Строка-буфер
+std::ofstream output("201 ready.txt"); //Открываешь второй файл для записи
+while (std::getline(input, string))  //Считываешь из файла строку (пока не EOF)
+output << string << std::endl;  //И записываешь эту строку в выходной файл
+system("pause");
+return 0;
 
-if (fin.is_open())
+ 
+std::ifstream ready;
+
+ready.open("201 ready.txt");
+
+
+if (ready.is_open())
 {
 
-    const int SIZE = 1500;
-    char sz_buffer[SIZE]{};
+    const int SIZE0 = 1500;
+    char sz_buffer0[SIZE0]{};
 
-    while (!fin.eof())
+    while (!ready.eof())
     {
 
         //fin >> sz_buffer;
-        fin.getline(sz_buffer, SIZE);
-        std::cout << sz_buffer << std::endl;
+        ready.getline(sz_buffer0, SIZE0);
+        std::cout << sz_buffer0 << std::endl;
     }
-    fin.close();
+    ready.close();
 
-
+   
 }
 
- else
- {
+else
+{
     std::cerr << "Error:File not found" << std::endl;
- }
+}
+
+
 
 
 
