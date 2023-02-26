@@ -2,48 +2,16 @@
 //
 
 
-#include <iostream>
-#include <string>
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
 #include<fstream>
+using namespace std;
 
-//#ifdef READ_TO_FILE
-//
-//std::ifstream fin;
-//
-//fin.open("File.txt");
-//
-//if (fin.is_open())
-//{
-//
-//    const int SIZE = 1500;
-//    char sz_buffer[SIZE]{};
-//
-//    while (!fin.eof())
-//    {
-//
-//        /*fin >> sz_buffer;*/
-//        fin.getline(sz_buffer, SIZE);
-//        std::cout << sz_buffer << std::endl;
-//    }
-//    fin.close();
-//
-//
-//}
-//else
-//{
-//    std::cerr << "Error:File not found" << std::endl;
-//}
-//
-//#endif // DEBUG
 
-//#define SAVE_FILE
-
-//#define WHRITE_TO_FILE
-  #define READ_FROM_FILE
 
 int main(void)
 {
-    
+
     setlocale(LC_ALL, "RUS");
 
 
@@ -116,7 +84,7 @@ int main(void)
     //    std::cerr << "Error:file not found" <<std:: endl;
     //}
 
-   
+
 
 
 
@@ -148,46 +116,96 @@ int main(void)
 // {
 //    std::cerr << "Error:File not found" << std::endl;
 // }
+//
+//std::ifstream input("201 RAW.txt"); //Открываешь первый файл для чтения
+//std::string string; //Строка-буфер
+//std::ofstream output("201 ready.txt"); //Открываешь второй файл для записи
+//while (std::getline(input, string))  //Считываешь из файла строку (пока не EOF)
+//output << string << std::endl;  //И записываешь эту строку в выходной файл
+//system("pause");
+//return 0;
+//
+// 
+//std::ifstream ready;
+//
+//ready.open("201 ready.txt");
+//
+//
+//if (ready.is_open())
+//{
+//
+//    const int SIZE0 = 1500;
+//    char sz_buffer0[SIZE0]{};
+//
+//    while (!ready.eof())
+//    {
+//
+//        //fin >> sz_buffer;
+//        ready.getline(sz_buffer0, SIZE0);
+//        std::cout << sz_buffer0 << std::endl;
+//    }
+//    ready.close();
+//
+//   
+//}
+//
+//else
+//{
+//    std::cerr << "Error:File not found" << std::endl;
+//}
+//
+//
+//
+//
+//
+//}
 
-std::ifstream input("201 RAW.txt"); //Открываешь первый файл для чтения
-std::string string; //Строка-буфер
-std::ofstream output("201 ready.txt"); //Открываешь второй файл для записи
-while (std::getline(input, string))  //Считываешь из файла строку (пока не EOF)
-output << string << std::endl;  //И записываешь эту строку в выходной файл
-system("pause");
-return 0;
-
- 
-std::ifstream ready;
-
-ready.open("201 ready.txt");
-
-
-if (ready.is_open())
+std::ifstream fin;
+fin.open("201 RAW.txt");
+if (fin.is_open())
 {
+	const int size = _MAX_FNAME;
+	char sz_bufer[size]{};//Áóôåð ôàéëà 
+	char st_bufer[size]{};//Áóôåð èçìåíåííîãî ôàéëà	
+	int size_st{};
+	while (!fin.eof())
+	{
+		fin.getline(sz_bufer, size);
+        std::cout << sz_bufer << std::endl;
 
-    const int SIZE0 = 1500;
-    char sz_buffer0[SIZE0]{};
+		size_st = strlen(sz_bufer);//îïðåäåëÿåì ðàçìåð ñòðîêè äëÿ ïðîõîäà ïî íåé
+		for (int i = 0, coll = 0; i < size_st; i++)
+		{
+			if (sz_bufer[i] == ' ' && coll == 0)
+			{
+				strcpy_s(st_bufer, size, sz_bufer + i + 8);
+				coll++;
+			}
+			if (sz_bufer[i] == ' ')
+			{
+				strcat_s(st_bufer, size, " ");
+			}
+			if (sz_bufer[i] == ' ' && sz_bufer[i + 1] != ' ')
+			{
+				strncat(st_bufer, sz_bufer, i);
+			}
+		}
 
-    while (!ready.eof())
-    {
-
-        //fin >> sz_buffer;
-        ready.getline(sz_buffer0, SIZE0);
-        std::cout << sz_buffer0 << std::endl;
-    }
-    ready.close();
-
-   
+		char fillename[_MAX_FNAME] = { "201 ready.txt" };
+        std::ofstream  fout;					//1)Ñîçäàåì ïîòîê
+		fout.open(fillename, std::ios_base::app);//2) Îòêðûâàåì ïîòîê
+		fout << st_bufer << std::endl;	//3)ïèøåì â ïîòîê
+		system("notepad 201 ready.txt");
+		fout.close();				//4)çàêðûâàåì ïîòîê çàïèñè		
+	}
+	fin.close();//çàêðûâàåì ïîòîê ÷òåíèÿ
 }
-
 else
 {
-    std::cerr << "Error:File not found" << std::endl;
+	std::cerr << "Error: File not found" << std::endl;
+	//cout -console out
+	//cerr - console error
 }
-
-
-
 
 
 }
