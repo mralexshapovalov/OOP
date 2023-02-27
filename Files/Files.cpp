@@ -5,10 +5,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<fstream>
+#include<string>
+#include<cstring>
 using namespace std;
 
 
-
+//#define WRITE_TO_FILE
+//#define READ_TO_FILE
+//#define FILE
 
 int main(void)
 {
@@ -70,57 +74,128 @@ int main(void)
 
 
 
+	
 
-std::ifstream fin;
-fin.open("201 RAW.txt");
-if (fin.is_open())
-{
-	const int size = _MAX_FNAME;
-	char sz_bufer[size]{};//Áóôåð ôàéëà 
-	char st_bufer[size]{};//Áóôåð èçìåíåííîãî ôàéëà	
-	int size_st{};
+	
 
-	while (!fin.eof())
+#ifdef FILE
+	
+    std::ifstream fin;
+	fin.open("201 RAW.txt");
+	if (fin.is_open())
 	{
-		fin.getline(sz_bufer, size);
-        std::cout << sz_bufer << std::endl;
+		const int size = _MAX_FNAME;
+		char sz_bufer[size]{};//Áóôåð ôàéëà 
+		char st_bufer[size]{};//Áóôåð èçìåíåííîãî ôàéëà	
+		int size_st{};
 
-		size_st = strlen(sz_bufer);//îïðåäåëÿåì ðàçìåð ñòðîêè äëÿ ïðîõîäà ïî íåé
-		for (int i = 0, coll = 0; i < size_st; i++)
+		while (!fin.eof())
 		{
-			if (sz_bufer[i] == ' ' && coll == 0)
+			fin.getline(sz_bufer, size);
+			std::cout << sz_bufer << std::endl;
+
+			size_st = strlen(sz_bufer);//îïðåäåëÿåì ðàçìåð ñòðîêè äëÿ ïðîõîäà ïî íåé
+			for (int i = 0, coll = 0; i < size_st; i++)
 			{
-				strcpy_s(st_bufer, size, sz_bufer + i + 8);
-				coll++;
+				if (sz_bufer[i] == ' ' && coll == 0)
+				{
+					strcpy_s(st_bufer, size, sz_bufer + i + 8);
+					coll++;
+				}
+				if (sz_bufer[i] == ' ')
+				{
+					strcat_s(st_bufer, size, " ");
+				}
+				if (sz_bufer[i] == ' ' && sz_bufer[i + 1] != ' ')
+				{
+					strncat(st_bufer, sz_bufer, i);
+				}
 			}
-			if (sz_bufer[i] == ' ')
+
+			char fillename[_MAX_FNAME] = { "201 ready.txt" };
+			std::ofstream  fout;					//1)Ñîçäàåì ïîòîê
+			fout.open(fillename, std::ios_base::app);//2) Îòêðûâàåì ïîòîê
+			fout << st_bufer << std::endl;	//3)ïèøåì â ïîòîê
+			system("notepad 201 ready.txt");
+			fout.close();				//4)çàêðûâàåì ïîòîê çàïèñè		
+		}
+		fin.close();//çàêðûâàåì ïîòîê ÷òåíèÿ
+	}
+	else
+	{
+		std::cerr << "Error: File not found" << std::endl;
+		//cout -console out
+		//cerr - console error
+	}
+
+#endif // FILE
+
+
+
+	std::ifstream file;
+	file.open("201 RAW.txt");
+
+	if (file.is_open())
+	{
+
+		const int SIZE = _MAX_FNAME;
+		char sz_buffer[SIZE]{}; //zero-terminated string(sz)
+		char st_bufer[SIZE]{};
+		int size_st{};
+
+		while (!file.eof())
+		{
+
+			/*fin >> sz_buffer;*/
+			file.getline(sz_buffer, SIZE);
+			std::cout << sz_buffer << std::endl;
+			size_st = strlen(sz_buffer);
+
+			for (int i = 0, coll = 0; i < size_st; i++)
 			{
-				strcat_s(st_bufer, size, " ");
+				if (sz_buffer[i] == ' ' && coll == 0)
+				{
+					strcpy_s(st_bufer, SIZE, sz_buffer + i + 8);
+					coll++;
+				}
+				if (sz_buffer[i] == ' ')
+				{
+					strcat_s(st_bufer, SIZE, " ");
+				}
+				if (sz_buffer[i] == ' ' && sz_buffer[i + 1] != ' ')
+				{
+					strncat(st_bufer, sz_buffer, i);
+				}
 			}
-			if (sz_bufer[i] == ' ' && sz_bufer[i + 1] != ' ')
-			{
-				strncat(st_bufer, sz_bufer, i);
-			}
+
+			char fillename[SIZE] = { "201 ready.txt" };
+			std::ofstream  fout;					//1)Ñîçäàåì ïîòîê
+			fout.open(fillename, std::ios_base::app);//2) Îòêðûâàåì ïîòîê
+			fout << st_bufer << std::endl;	//3)ïèøåì â ïîòîê
+			
+			fout.close();
 		}
 
-		char fillename[_MAX_FNAME] = { "201 ready.txt" };
-        std::ofstream  fout;					//1)Ñîçäàåì ïîòîê
-		fout.open(fillename, std::ios_base::app);//2) Îòêðûâàåì ïîòîê
-		fout << st_bufer << std::endl;	//3)ïèøåì â ïîòîê
-		system("notepad 201 ready.txt");
-		fout.close();				//4)çàêðûâàåì ïîòîê çàïèñè		
+
+		file.close();
+
+
+
+
+    }
+
+	else
+	{
+		std::cerr << "Error:File not found" << std::endl;
 	}
-	fin.close();//çàêðûâàåì ïîòîê ÷òåíèÿ
-}
-else
-{
-	std::cerr << "Error: File not found" << std::endl;
-	//cout -console out
-	//cerr - console error
+
+	system("notepad 201 ready.txt");
 }
 
 
-}
+
+
+
 
 
 
