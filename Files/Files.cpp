@@ -7,6 +7,7 @@
 #include<fstream>
 #include<string>
 #include<cstring>
+#include <vector>
 using namespace std;
 
 
@@ -132,75 +133,107 @@ int main(void)
 
 
 
-	std::ifstream file;
-	file.open("201 RAW.txt");
+	//std::ifstream file;
+	//file.open("201 RAW.txt");
 
-	if (file.is_open())
+	//if (file.is_open())
+	//{
+	//	const int SIZE = _MAX_FNAME;
+	//	char sz_buffer[SIZE]{}; //zero-terminated string(sz)
+	//	char st_bufer[SIZE]{};
+	//	int size_st{};
+
+
+	//	const int IP_SIZE = _MAX_FNAME;
+	//	const int MAC_SIZE = _MAX_FNAME;
+
+	//	char sz_ip_buffer[IP_SIZE] = {};
+	//	char sz_mac_buffer[MAC_SIZE] = {};
+
+	//	while (!file.eof())
+	//	{
+	//		file.getline(sz_buffer, SIZE);
+	//		std::cout << sz_buffer << std::endl;
+	//	/*	size_st = strlen(sz_buffer);*/
+
+	//		//std::cout << sz_mac_buffer <<" " << sz_ip_buffer << std::endl;
+	//		
+	//
+	//		
+	//	/*		file >> sz_ip_buffer;
+	//			file >> sz_mac_buffer;*/
+	//		
+
+	///*		for (int i = 0, coll = 0; i < size_st; i++)
+	//		{
+	//			
+
+
+	//			if (sz_buffer[i] == ' ' && coll == 0)
+	//			{
+	//				strcpy_s(st_bufer, SIZE, sz_buffer + i + 8);  //куда,размер,откуда
+	//				coll++;
+	//			}
+	//			if (sz_buffer[i] == ' ')
+	//			{
+	//				strcat_s(st_bufer, SIZE, " ");
+	//			}
+	//			if (sz_buffer[i] == ' ' && sz_buffer[i + 1] != ' ')
+	//			{
+	//				strncat(st_bufer, sz_buffer, i);
+	//			}
+	//		}*/
+
+	//	/*	*/
+
+	//		for (int i = 0; i < size_st; i++) 
+	//		{
+	//			std::swap(file[2], file[5]);
+
+	//		}
+
+
+
+	//		char fillename[SIZE] = { "201 ready.txt" };
+	//		std::ofstream  fout;					
+	//		fout.open(fillename, std::ios_base::app);
+	//	    fout << sz_mac_buffer << "\t\t" << sz_ip_buffer << std::endl;
+	//		/*fout << st_bufer << std::endl;	*/
+	//		
+	//		fout.close();
+
+	//	
+	//	}
+	//	system("notepad 201 ready.txt");
+	//	
+	//	file.close();
+ //   }
+
+	//else
+	//{
+	//	std::cerr << "Error:File not found" << std::endl;
+	//}
+
+	ifstream in("in.txt");
+	if (in.is_open())
 	{
-		const int SIZE = _MAX_FNAME;
-		char sz_buffer[SIZE]{}; //zero-terminated string(sz)
-		char st_bufer[SIZE]{};
-		int size_st{};
-
-
-		const int IP_SIZE = _MAX_FNAME;
-		const int MAC_SIZE = _MAX_FNAME;
-
-		char sz_ip_buffer[IP_SIZE] = {};
-		char sz_mac_buffer[MAC_SIZE] = {};
-
-		while (!file.eof())
+		std::vector<std::string> content;
+		for (std::string line; std::getline(in, line); )
 		{
-			/*file.getline(sz_buffer, SIZE);
-			std::cout << sz_buffer << std::endl;
-			size_st = strlen(sz_buffer);*/
-
-			file >> sz_ip_buffer;
-			file >> sz_mac_buffer;
-
-			std::cout << sz_mac_buffer <<" " << sz_ip_buffer << std::endl;
-			
-
-
-			//for (int i = 0, coll = 0; i < size_st; i++)
-			//{
-			//	
-
-
-			//	/*if (sz_buffer[i] == ' ' && coll == 0)
-			//	{
-			//		strcpy_s(st_bufer, SIZE, sz_buffer + i + 8);
-			//		coll++;
-			//	}
-			//	if (sz_buffer[i] == ' ')
-			//	{
-			//		strcat_s(st_bufer, SIZE, " ");
-			//	}
-			//	if (sz_buffer[i] == ' ' && sz_buffer[i + 1] != ' ')
-			//	{
-			//		strncat(st_bufer, sz_buffer, i);
-			//	}*/
-			//}
-
-			char fillename[SIZE] = { "201 ready.txt" };
-			std::ofstream  fout;					
-			fout.open(fillename, std::ios_base::app);
-			fout << sz_mac_buffer << "\t\t" << sz_ip_buffer << std::endl;
-			/*fout << st_bufer << std::endl;	*/
-			
-			fout.close();
+			content.push_back(line);
 		}
-		system("notepad 201 ready.txt");
-		
-		file.close();
-    }
+		in.close();
+		std::iter_swap(content.begin() + 2, content.begin() + 5);
 
-	else
-	{
-		std::cerr << "Error:File not found" << std::endl;
+		ofstream out("in.txt");
+		if (out.is_open()) {
+			for (auto i : content)
+			{
+				out << i << std::endl;
+			}
+			out.close();
+		}
 	}
-
-
 }
 
 
