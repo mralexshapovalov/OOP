@@ -137,51 +137,62 @@ int main(void)
 
 	if (file.is_open())
 	{
-
 		const int SIZE = _MAX_FNAME;
 		char sz_buffer[SIZE]{}; //zero-terminated string(sz)
 		char st_bufer[SIZE]{};
 		int size_st{};
 
+
+		const int IP_SIZE = _MAX_FNAME;
+		const int MAC_SIZE = _MAX_FNAME;
+
+		char sz_ip_buffer[IP_SIZE] = {};
+		char sz_mac_buffer[MAC_SIZE] = {};
+
 		while (!file.eof())
 		{
-
-			/*fin >> sz_buffer;*/
-			file.getline(sz_buffer, SIZE);
+			/*file.getline(sz_buffer, SIZE);
 			std::cout << sz_buffer << std::endl;
-			size_st = strlen(sz_buffer);
+			size_st = strlen(sz_buffer);*/
 
-			for (int i = 0, coll = 0; i < size_st; i++)
-			{
-				if (sz_buffer[i] == ' ' && coll == 0)
-				{
-					strcpy_s(st_bufer, SIZE, sz_buffer + i + 8);
-					coll++;
-				}
-				if (sz_buffer[i] == ' ')
-				{
-					strcat_s(st_bufer, SIZE, " ");
-				}
-				if (sz_buffer[i] == ' ' && sz_buffer[i + 1] != ' ')
-				{
-					strncat(st_bufer, sz_buffer, i);
-				}
-			}
+			file >> sz_ip_buffer;
+			file >> sz_mac_buffer;
+
+			std::cout << sz_mac_buffer <<" " << sz_ip_buffer << std::endl;
+			
+
+
+			//for (int i = 0, coll = 0; i < size_st; i++)
+			//{
+			//	
+
+
+			//	/*if (sz_buffer[i] == ' ' && coll == 0)
+			//	{
+			//		strcpy_s(st_bufer, SIZE, sz_buffer + i + 8);
+			//		coll++;
+			//	}
+			//	if (sz_buffer[i] == ' ')
+			//	{
+			//		strcat_s(st_bufer, SIZE, " ");
+			//	}
+			//	if (sz_buffer[i] == ' ' && sz_buffer[i + 1] != ' ')
+			//	{
+			//		strncat(st_bufer, sz_buffer, i);
+			//	}*/
+			//}
 
 			char fillename[SIZE] = { "201 ready.txt" };
-			std::ofstream  fout;					//1)Ñîçäàåì ïîòîê
-			fout.open(fillename, std::ios_base::app);//2) Îòêðûâàåì ïîòîê
-			fout << st_bufer << std::endl;	//3)ïèøåì â ïîòîê
+			std::ofstream  fout;					
+			fout.open(fillename, std::ios_base::app);
+			fout << sz_mac_buffer << "\t\t" << sz_ip_buffer << std::endl;
+			/*fout << st_bufer << std::endl;	*/
 			
 			fout.close();
 		}
-
-
+		system("notepad 201 ready.txt");
+		
 		file.close();
-
-
-
-
     }
 
 	else
@@ -189,7 +200,7 @@ int main(void)
 		std::cerr << "Error:File not found" << std::endl;
 	}
 
-	system("notepad 201 ready.txt");
+
 }
 
 
