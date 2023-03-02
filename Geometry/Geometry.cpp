@@ -1,243 +1,244 @@
-﻿// Geometry.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
-#include <iostream>
-//#include <glut.h>
-#include <Windows.h>
+﻿
+#include<Windows.h>
+#include<iostream>
 
 
-/*Реализовать иерархию геометрических фигур : квадрат, треугольник, прямоугольник, круг и т.д.
-Для каждой фигуры необходимо вывести ее первичные свойства, такие как радиус, длина стороны, и т.д.
-и вторичные свойства такие как площадь, периметр, так же каждую фигуру нужно нарисоват*/
+#define delimiter "\n----------------------------------------\n"
 
-
-
-enum Color
+namespace Geometry
 {
+	enum Color
+	{
+		red = 0x000000FF,
+		green = 0x0000FF00,
+		blue = 0x00FF0000,
+		yellow = 0x0000FFFF,
+		white = 0x00FFFFFF,
 
-    ConsoleBlue = 0x99,
-    ConsoleGreen = 0xAA,
-    ConsoleRED=0xCC,
-    ConsoleDefault=0x07
+		console_blue = 0x99,
+		console_green = 0xAA,
+		console_red = 0xCC,
+		console_default = 0x07
+	};
+	//enum (Enumeration - Перечисление) - это набор именованных констант типа 'int'
 
-};
+	class Shape
+	{
+	protected:
+		Color color;
+		int start_x;
+		int start_y;
+		int line_width;
+	public:
+		int get_start_x()const
+		{
+			return start_x;
+		}
+		int get_start_y()const
+		{
+			return start_y;
+		}
+		int get_line_width()const
+		{
+			return line_width;
+		}
+		void set_start_x(int start_x)
+		{
+			if (start_x < 10)start_x = 10;
+			if (start_x > 500)start_x = 500;
+			this->start_x = start_x;
+		}
+		void set_start_y(int start_y)
+		{
+			if (start_y < 10)start_y = 10;
+			if (start_y > 500)start_y = 500;
+			this->start_y = start_y;
+		}
+		void set_line_width(int line_width)
+		{
+			if (line_width < 5)line_width = 5;
+			if (line_width > 20)line_width = 20;
+			this->line_width = line_width;
+		}
 
-class Shape 
-{
+		Shape(Color color, int start_x, int start_y, int line_width) :color(color)
+		{
+			set_start_x(start_x);
+			set_start_y(start_y);
+			set_line_width(line_width);
+		}
+		virtual ~Shape() {}
 
-protected:
+		virtual double get_area()const = 0;
+		virtual double get_perimeter()const = 0;
+		virtual void draw()const = 0;
+		virtual void info()const
+		{
+			std::cout << "Площадь фигуры: " << get_area() << std::endl;
+			std::cout << "Периметр фигуры: " << get_perimeter() << std::endl;
+			draw();
+		}
+	};
 
-    Color color;
+	/*class Square :public Shape
+	{
+		double side;
+	public:
+		double get_side()const
+		{
+			return side;
+		}
+		void set_side(double side)
+		{
+			if (side > 20)side = 20;
+			if (side < 5)side = 5;
+			this->side = side;
+		}
+		//					Constructors:
+		Square(double side, Color color) :Shape(color)
+		{
+			set_side(side);
+		}
+		~Square() {}
+		double get_area()const override
+		{
+			return side * side;
+		}
+		double get_perimeter()const override
+		{
+			return side * 4;
+		}
+		void draw()const override
+		{
+			HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+			SetConsoleTextAttribute(hConsole, color);
+			for (int i = 0; i < side; i++)
+			{
+				for (int j = 0; j < side; j++)
+				{
+					cout << "* ";
+				}
+				cout << endl;
+			}
+			SetConsoleTextAttribute(hConsole, Color::console_default);
+		}
+		void info()const
+		{
+			cout << typeid(*this).name() << endl;
+			cout << "Длина стороны квадрата: " << side << endl;
+			Shape::info();
+		}
+	};*/
 
-public:
+	class Rectangle :public Shape
+	{
+		double side_1, side_2;
+	public:
+		double get_side_1()const
+		{
+			return side_1;
+		}
+		double get_side_2()const
+		{
+			return side_2;
+		}
+		void set_side_1(double side_1)
+		{
+			if (side_1 < 50)side_1 = 50;
+			if (side_1 > 550)side_1 = 550;
+			this->side_1 = side_1;
+		}
+		void set_side_2(double side_2)
+		{
+			if (side_2 < 50)side_2 = 50;
+			if (side_2 > 550)side_2 = 550;
+			this->side_2 = side_2;
+		}
+		Rectangle(double side_1, double side_2, Color color, int start_x, int start_y, int line_width)
+			:Shape(color, start_x, start_y, line_width)
+		{
+			set_side_1(side_1);
+			set_side_2(side_2);
+		}
+		~Rectangle() {}
 
-    Shape(Color color) :color(color){};
-    virtual ~Shape(){}
+		double get_area()const override
+		{
+			return side_1 * side_2;
+		}
+		double get_perimeter()const override
+		{
+			return (side_1 + side_2) * 2;
+		}
+		void draw()const
+		{
+			/*HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+			SetConsoleTextAttribute(hConsole, color);
+			for (int i = 0; i < side_1; i++)
+			{
+				for (int j = 0; j < side_2; j++)
+				{
+					cout << "* ";
+				}
+				cout << endl;
+			}
+			SetConsoleTextAttribute(hConsole, Color::console_default);*/
 
-    virtual double get_area()const = 0;
-    virtual double get_perimetr()const = 0;
-    virtual void draw()const = 0;
+			HWND hwnd = GetConsoleWindow();	//Получаем обработчик окна консоли
+			HDC hdc = GetDC(hwnd);	//Получаем контекст усройства окна косоли
+			//Контекст устройства - это то, на чем мы будем рисовать
 
-    virtual void information()const
-    {
-        std::cout << "The area of the figure: " << get_area() << std::endl;
-        std::cout << "The perimetr of the figure: " << get_perimetr() << std::endl;
-    }
-};
+			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
+			//Pen (карандаш) рисут контур фигуры,
+			//PS_SOLID - сплошная линия
+			//5 - толщина линии 5 пикселов
 
-class Square :public Shape //Квадрат
-{
+			HBRUSH hBrush = CreateSolidBrush(color);
+			//Brush - это кисть, рисует заливку замкнутой фигуры.
 
-private:
+			//Выбираем чем и на чем рисовать:
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
 
-    double side;//Сторона
+			//Когда все инфстументы созданы и выбраны, можно вызывать функцию,
+			//для рисования нужно фигуры:
 
+			::Rectangle(hdc, start_x, start_y, start_x + side_1, start_y + side_2);
 
-public:
-    const double getSide() const
-    {
-        return side;
-    }
+			DeleteObject(hPen);
+			DeleteObject(hBrush);
+			ReleaseDC(hwnd, hdc);	//Освобождаем контекст устройства
+		}
 
-    void setSide(double side)
-    {
-        this->side = side;
-    }
+		void info()const
+		{
+			std::cout << typeid(*this).name() << std::endl;
+			std::cout << "Сторона 1: " << side_1 << std::endl;
+			std::cout << "Сторона 2: " << side_2 << std::endl;
+			Shape::info();
+		}
+	};
 
-
-    Square(double side, Color color):Shape(color)
-    {
-
-        setSide(side);
-    }
-
-    ~Square() 
-    {
-
-        /*std::cout << "SquareDestructor" << this << std::endl;*/
-
-    }
-
-    double get_area() const override
-    {
-        return side * side;// взоврщает плошадь квадрата S=a*b
-    }
-
-    double get_perimetr() const override
-    {
-
-        return (side + side) * 2;//Возвращает периметр квдадрата P=2(a+b)
-
-    }
-
-    void draw() const override
-    {
-        std::cout << "Square" << std::endl;
-
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        SetConsoleTextAttribute(hConsole, ConsoleRED);
-
-        for (int i = 0; i < side; i++) 
-        {
-            for (int j = 0; j < side; j++) 
-            {
-                std::cout  << "* ";
-            }
-
-            std::cout << std::endl;
-        }
-
-        SetConsoleTextAttribute(hConsole, ConsoleDefault);
-    }
-
-    void information()const
-    {
-  
-        std::cout << "The length of the side of the square: " << side << std::endl; //Длина стороны квадрата
-        Shape::information();
-
-    }
-
-};
-
-class Rect :public Shape //Прямоугольник
-{
-private:
-
-    double length;//Длина
-    double width; //Ширина
-
-
-public:
-
-    const double getLength() const
-    {
-        return length;
-    }
-    const double getWidth() const
-    {
-        return width;
-    }
-
-    void setLength(double length)
-    {
-        this->length = length;
-    }
-
-    void setWidth(double width)
-    {
-        this->width = width;
-    }
-
-
-    Rect(double length, double width, Color color) :Shape( color)
-    {
-
-        setLength(length);
-        setWidth(width);
-    }
-
-    ~Rect()
-    {
-
-        /*std::cout << "SquareDestructor" << this << std::endl;*/
-
-    }
-
-    double get_area() const override
-    {
-        return length * width;// взоврщает плошадь квадрата S=a*b
-    }
-
-    double get_perimetr() const override
-    {
-
-        return (length + width)*2;//Возвращает периметр квдадрата P=2(a+b)
-
-    }
-
-    void draw() const override
-    {
-        std::cout << "\nRectangle" << std::endl;
-
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        SetConsoleTextAttribute(hConsole, ConsoleGreen);
-    
-        for (int i = 0; i < length; i++)
-        { 
-            for (int j = 0; j < width; j++)
-            {
-                std::cout << "* "; 
-                
-            }
-            
-            std::cout << std::endl;
-        }
-       
-        SetConsoleTextAttribute(hConsole, ConsoleDefault);
-    }
-
-    void information()const
-    {
-
-        std::cout << "The length of the side of the rectangle: " << length << std::endl; //Длина пямоугольника
-        std::cout << "The Width of the side of the rectangle: " << width << std::endl; //Ширина прямоуголника
-        Shape::information();
-
-    }
-
-};
-
-//class Circle :public Shape //Круг
-//{
-//public:
-//
-//
-//};
-//
-//class Rhomb :public Shape //Круг
-//{
-//public:
-//
-//
-//};
-
-
-int main()
-{
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-
-    Square square(5, Color::ConsoleRED);
-    square.draw();
-    square.information();
-
-    Rect rect(5, 10, Color::ConsoleGreen);
-    rect.draw();
-    rect.information();
-
-
-   /* rectangle.draw();
-    rectangle.information();*/
+	class Square :public Rectangle
+	{
+	public:
+		Square(double side, Color color, int start_x, int start_y, int line_width)
+			:Rectangle(side, side, color, start_x, start_y, line_width) {}
+		~Square() {}
+	};
 }
 
+void main()
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD coord = {};
+	SetConsoleDisplayMode(hConsole, CONSOLE_FULLSCREEN_MODE, &coord);
+
+	setlocale(LC_ALL, "");
+
+	Geometry::Square square(1000, Geometry::Color::red, 300, 10, 5);
+	square.info();
+
+	Geometry::Rectangle rect(120, 75, Geometry::Color::blue, 500, 10, 8);
+	rect.info();
+}
